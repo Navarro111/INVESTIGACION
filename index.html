@@ -1,786 +1,243 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Panorama de Ciberseguridad en Panamá (2024–2026)</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    :root{
-      --bg:#0b1020;
-      --panel:#121932;
-      --panel-2:#182243;
-      --soft:#e9eefc;
-      --text:#dfe7ff;
-      --muted:#aeb9dc;
-      --accent:#7c9cff;
-      --accent-2:#43d3b5;
-      --accent-3:#ffb454;
-      --danger:#ff6b81;
-      --border:rgba(255,255,255,.10);
-      --shadow:0 18px 40px rgba(0,0,0,.28);
-      --radius:20px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panorama de Ciberseguridad en Panamá</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(124,156,255,.20), transparent 28%),
-        radial-gradient(circle at top right, rgba(67,211,181,.12), transparent 22%),
-        linear-gradient(180deg, #09101d 0%, #0b1020 100%);
-      color:var(--text);
-      line-height:1.65;
-    }
+<style>
+:root{
+  --bg:#0b1020;
+  --panel:#121932;
+  --text:#dfe7ff;
+  --accent:#7c9cff;
+  --accent2:#43d3b5;
+  --border:rgba(255,255,255,.1);
+}
 
-    a{color:#9fc1ff;text-decoration:none}
-    a:hover{text-decoration:underline}
+body{
+  margin:0;
+  font-family:Segoe UI, sans-serif;
+  background:linear-gradient(180deg,#09101d,#0b1020);
+  color:var(--text);
+}
 
-    .container{
-      width:min(1180px, 92%);
-      margin:0 auto;
-    }
+/* CONTENEDOR */
+.container{
+  width:90%;
+  margin:auto;
+}
 
-    .hero{
-      padding:64px 0 32px;
-    }
+/* HERO */
+.hero{
+  padding:40px;
+  text-align:center;
+}
 
-    .hero-card{
-      background:linear-gradient(135deg, rgba(124,156,255,.15), rgba(67,211,181,.08));
-      border:1px solid var(--border);
-      box-shadow:var(--shadow);
-      border-radius:28px;
-      padding:38px;
-      overflow:hidden;
-      position:relative;
-    }
+h1{
+  font-size:2.5rem;
+}
 
-    .hero-card::after{
-      content:"";
-      position:absolute;
-      width:320px;
-      height:320px;
-      right:-100px;
-      top:-100px;
-      border-radius:50%;
-      background:radial-gradient(circle, rgba(124,156,255,.24), transparent 70%);
-      pointer-events:none;
-    }
+/* CARDS */
+.card{
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:20px;
+  margin:10px;
+  backdrop-filter:blur(10px);
+  transition:.3s;
+  animation:fadeIn .6s ease;
+}
 
-    .eyebrow{
-      display:inline-flex;
-      gap:10px;
-      align-items:center;
-      padding:8px 14px;
-      border-radius:999px;
-      background:rgba(255,255,255,.06);
-      border:1px solid var(--border);
-      color:#c7d5ff;
-      font-size:.92rem;
-      margin-bottom:18px;
-    }
+.card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 0 20px rgba(124,156,255,.3);
+}
 
-    h1,h2,h3{
-      line-height:1.2;
-      margin:0 0 14px;
-      color:#fff;
-    }
+/* GRID */
+.grid{
+  display:grid;
+  gap:15px;
+}
 
-    h1{
-      font-size:clamp(2rem, 4vw, 3.6rem);
-      letter-spacing:-.03em;
-    }
+.three{
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+}
 
-    h2{
-      font-size:clamp(1.5rem, 2.6vw, 2.2rem);
-      margin-bottom:16px;
-    }
+/* LISTAS */
+ul{
+  padding-left:20px;
+}
 
-    h3{
-      font-size:1.12rem;
-      margin-bottom:10px;
-    }
+/* PROGRESS */
+.progress{
+  height:8px;
+  background:rgba(255,255,255,.1);
+  border-radius:10px;
+  overflow:hidden;
+}
 
-    .lead{
-      font-size:1.08rem;
-      color:var(--soft);
-      max-width:920px;
-    }
+.bar{
+  height:100%;
+  background:linear-gradient(90deg,#7c9cff,#43d3b5);
+}
 
-    .badges{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:22px;
-    }
+/* TITULOS */
+h2{
+  border-left:4px solid var(--accent);
+  padding-left:10px;
+}
 
-    .badge{
-      padding:8px 12px;
-      border-radius:999px;
-      font-size:.92rem;
-      color:#dbe5ff;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.05);
-    }
-
-    .quick-nav{
-      margin:26px 0 0;
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-    }
-
-    .quick-nav a{
-      display:inline-block;
-      padding:10px 14px;
-      border-radius:12px;
-      background:rgba(255,255,255,.06);
-      border:1px solid var(--border);
-      color:#fff;
-      font-weight:600;
-    }
-
-    section{
-      padding:30px 0;
-    }
-
-    .grid{
-      display:grid;
-      gap:18px;
-    }
-
-    .stats-grid{
-      grid-template-columns:repeat(5, minmax(0,1fr));
-    }
-
-    .card{
-      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.025));
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:22px;
-    }
-
-    .stat{
-      min-height:160px;
-    }
-
-    .stat .label{
-      color:var(--muted);
-      font-size:.92rem;
-      margin-bottom:10px;
-    }
-
-    .stat .value{
-      font-size:2rem;
-      font-weight:800;
-      color:#fff;
-      letter-spacing:-.03em;
-      margin-bottom:8px;
-    }
-
-    .stat .small{
-      color:#c6d4ff;
-      font-size:.96rem;
-    }
-
-    .highlight{
-      color:var(--accent-2);
-      font-weight:700;
-    }
-
-    .warning{
-      color:var(--accent-3);
-      font-weight:700;
-    }
-
-    .danger{
-      color:var(--danger);
-      font-weight:700;
-    }
-
-    .two-col{
-      grid-template-columns:1.15fr .85fr;
-      align-items:start;
-    }
-
-    .three-col{
-      grid-template-columns:repeat(3, minmax(0,1fr));
-    }
-
-    .chart-card canvas{
-      width:100% !important;
-      height:340px !important;
-    }
-
-    .kpi-list{
-      margin:0;
-      padding-left:18px;
-    }
-
-    .kpi-list li{
-      margin:10px 0;
-      color:var(--soft);
-    }
-
-    .note{
-      margin-top:14px;
-      color:var(--muted);
-      font-size:.95rem;
-    }
-
-    .cite{
-      display:inline-block;
-      margin-left:6px;
-      font-size:.92rem;
-      white-space:nowrap;
-    }
-
-    .insight{
-      border-left:4px solid var(--accent);
-      padding-left:16px;
-      margin:18px 0 0;
-      color:var(--soft);
-    }
-
-    .timeline{
-      display:grid;
-      gap:16px;
-      position:relative;
-    }
-
-    .timeline-item{
-      background:rgba(255,255,255,.04);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:18px;
-    }
-
-    .timeline-year{
-      color:var(--accent-2);
-      font-weight:800;
-      margin-bottom:8px;
-      letter-spacing:.04em;
-      text-transform:uppercase;
-      font-size:.88rem;
-    }
-
-    table{
-      width:100%;
-      border-collapse:collapse;
-      margin-top:8px;
-      overflow:hidden;
-      border-radius:16px;
-    }
-
-    th, td{
-      border:1px solid var(--border);
-      padding:14px;
-      vertical-align:top;
-      text-align:left;
-    }
-
-    th{
-      background:rgba(124,156,255,.12);
-      color:#fff;
-    }
-
-    td{
-      background:rgba(255,255,255,.03);
-      color:var(--soft);
-    }
-
-    .mini{
-      font-size:.92rem;
-      color:var(--muted);
-    }
-
-    .conclusion-list{
-      margin:0;
-      padding-left:20px;
-    }
-
-    .conclusion-list li{
-      margin:10px 0;
-    }
-
-    .footer{
-      padding:24px 0 60px;
-      color:var(--muted);
-      font-size:.95rem;
-    }
-
-    .ref-list{
-      margin:0;
-      padding-left:20px;
-    }
-
-    .ref-list li{
-      margin:12px 0;
-    }
-
-    .pill{
-      display:inline-block;
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:.82rem;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.05);
-      color:#dbe5ff;
-      margin-bottom:10px;
-    }
-
-    .subtle{
-      color:var(--muted);
-    }
-
-    @media (max-width: 1080px){
-      .stats-grid{grid-template-columns:repeat(2, minmax(0,1fr))}
-      .two-col{grid-template-columns:1fr}
-      .three-col{grid-template-columns:1fr}
-    }
-
-    @media (max-width: 640px){
-      .hero-card{padding:24px}
-      .stats-grid{grid-template-columns:1fr}
-      .card{padding:18px}
-      .chart-card canvas{height:300px !important}
-    }
-  </style>
+/* ANIMACION */
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
+</style>
 </head>
+
 <body>
-  <header class="hero">
-    <div class="container">
-      <div class="hero-card">
-        <div class="eyebrow">Investigación académica • Ciberseguridad • Panamá • Corte al 28/03/2026</div>
-        <h1>Panorama de ciberseguridad en Panamá (2024–2026)</h1>
-        <p class="lead">
-          Este documento web analiza la evolución reciente de las incidencias de seguridad informática en Panamá con base en fuentes oficiales, corporativas especializadas y registros públicos. El objetivo es interpretar tendencias, tipos de amenazas, sectores más expuestos y líneas de acción para organizaciones y usuarios, diferenciando entre <strong>incidentes reportados</strong>, <strong>intentos de ataque</strong> y <strong>denuncias penales</strong>, que son métricas distintas y no deben compararse de forma directa.
-          <a class="cite" href="https://cert.pa/?p=4183" target="_blank">[CSIRT Panamá]</a>
-          <a class="cite" href="https://www.mastercard.com/car/en/news-and-trends/press/2025/may/panama-avanza-en-su-digitalizacion-mastercard-presenta-hallazgos-clave-sobre-ciberseguridad-y-refuerza-su-compromiso-con-la-proteccion-del-ecosistema-digital.html" target="_blank">[Mastercard]</a>
-          <a class="cite" href="https://ministeriopublico.gob.pa/wp-content/uploads/Informe-Estadistico-de-Delitos-de-Estafas-y-Otros-Fraudes-diciembre-2025.pdf" target="_blank">[Ministerio Público]</a>
-        </p>
 
-        <div class="badges">
-          <span class="badge">Fuentes oficiales: <a href="https://cert.pa/" target="_blank">CSIRT Panamá</a>, <a href="https://aig.gob.pa/" target="_blank">AIG</a>, <a href="https://www.mef.gob.pa/" target="_blank">MEF</a></span>
-          <span class="badge">Fuentes técnicas: <a href="https://www.mastercard.com/" target="_blank">Mastercard</a>, <a href="https://www.fortinet.com/" target="_blank">Fortinet</a>, <a href="https://research.checkpoint.com/" target="_blank">Check Point Research</a></span>
-          <span class="badge">Enfoque: incidentes, amenazas, sectores, impacto y recomendaciones</span>
-        </div>
+<div class="container">
 
-        <nav class="quick-nav">
-          <a href="#resumen">Resumen ejecutivo</a>
-          <a href="#indicadores">Indicadores clave</a>
-          <a href="#graficos">Gráficos</a>
-          <a href="#analisis">Análisis</a>
-          <a href="#riesgos">Riesgos</a>
-          <a href="#conclusiones">Conclusiones</a>
-          <a href="#referencias">APA 7</a>
-        </nav>
-      </div>
-    </div>
-  </header>
+<!-- HERO -->
+<div class="hero">
+  <h1>🔐 Panorama de Ciberseguridad en Panamá</h1>
+  <p>Periodo 2024 – 2026</p>
+</div>
 
-  <main>
-    <section id="resumen">
-      <div class="container">
-        <div class="grid two-col">
-          <article class="card">
-            <span class="pill">Resumen ejecutivo</span>
-            <h2>Lectura rápida del periodo 2024–2026</h2>
-            <p>
-              En 2024, <a href="https://cert.pa/" target="_blank">CSIRT Panamá</a> registró <strong>1,312 incidentes</strong>, con predominio del <strong>phishing (42%)</strong>, seguido del <strong>fraude digital (22%)</strong> y el <strong>malware (18%)</strong>. En paralelo, un informe de <a href="https://www.mastercard.com/" target="_blank">Mastercard</a> describió un entorno de exposición mucho mayor a nivel de telemetría: más de <strong>4 mil millones de intentos de ataque</strong> en el año, crecimiento del <strong>97%</strong> en ciberataques semanales a organizaciones panameñas y mayor presión sobre los sectores financiero e industrial.
-              <a class="cite" href="https://cert.pa/?p=4183" target="_blank">[CSIRT Panamá]</a>
-              <a class="cite" href="https://www.mastercard.com/car/en/news-and-trends/press/2025/may/panama-avanza-en-su-digitalizacion-mastercard-presenta-hallazgos-clave-sobre-ciberseguridad-y-refuerza-su-compromiso-con-la-proteccion-del-ecosistema-digital.html" target="_blank">[Mastercard]</a>
-            </p>
-            <p>
-              En 2025, la página estadística de <a href="https://cert.pa/" target="_blank">CSIRT Panamá</a> reportó <strong>3,700 incidentes</strong>, lo que representa un salto notable respecto a 2024. La visualización pública lista categorías como <strong>compromiso de cuentas no privilegiadas</strong>, <strong>malware</strong>, <strong>compromiso de aplicaciones</strong>, <strong>fraude</strong>, <strong>defacement</strong>, <strong>divulgación de información sensitiva</strong>, <strong>inyección SQL</strong> y <strong>ransomware</strong>, aunque en el contenido textual disponible no aparecen porcentajes detallados por categoría.
-              <a class="cite" href="https://cert.pa/?page_id=4092" target="_blank">[CSIRT Panamá 2025]</a>
-            </p>
-            <p>
-              Para 2026, hasta el <strong>28 de marzo</strong> no se localizó una estadística anual consolidada de incidentes equivalente a la de 2025. No obstante, las publicaciones de marzo de <a href="https://cert.pa/" target="_blank">CSIRT Panamá</a> muestran que el foco técnico sigue puesto en <strong>ransomware</strong>, <strong>seguridad de bases de datos</strong>, <strong>WordPress</strong> y <strong>vulnerabilidades críticas</strong> como ejecución remota de código en productos Oracle, lo que sugiere continuidad en la presión sobre credenciales, servicios expuestos y plataformas web.
-              <a class="cite" href="https://cert.pa/?m=202603" target="_blank">[CSIRT marzo 2026]</a>
-              <a class="cite" href="https://cert.pa/?p=4996" target="_blank">[Ransomware]</a>
-              <a class="cite" href="https://cert.pa/?p=5021" target="_blank">[Oracle]</a>
-            </p>
-            <div class="insight">
-              <strong>Interpretación central:</strong> Panamá presenta un patrón de aumento en superficie de ataque, presión sostenida sobre credenciales, fraudes digitales y ransomware, mientras el Estado intenta pasar de una defensa reactiva a una arquitectura más proactiva mediante el fortalecimiento del CSIRT y la creación de un SOC.
-              <a class="cite" href="https://www.tvn-2.com/nacionales/panama-centro-de-operaciones-de-ciberseguridad-amenazas-digitales_1_2220110.html" target="_blank">[TVN]</a>
-              <a class="cite" href="https://www.prensa.com/economia/la-aig-apuesta-en-2026-por-sostener-sus-plataformas-y-enfrentar-los-ciberataques/" target="_blank">[La Prensa]</a>
-            </div>
-          </article>
+<!-- RESUMEN -->
+<h2>📊 Resumen Ejecutivo</h2>
+<div class="grid three">
 
-          <aside class="card">
-            <span class="pill">Metodología</span>
-            <h2>Cómo leer estos datos</h2>
-            <ul class="kpi-list">
-              <li><strong>Incidentes reportados:</strong> casos gestionados o contabilizados por CSIRT Panamá.</li>
-              <li><strong>Intentos de ataque:</strong> volumen de telemetría detectada por firmas como Mastercard o Fortinet.</li>
-              <li><strong>Denuncias penales:</strong> registros del Ministerio Público asociados a fraudes y delitos informáticos.</li>
-              <li><strong>Corte temporal:</strong> 2026 se interpreta como un año <em>parcial</em>, no cerrado.</li>
-              <li><strong>Criterio analítico:</strong> se privilegian fuentes oficiales y especializadas; cuando una cifra proviene de prensa técnica, se indica expresamente.</li>
-            </ul>
-            <p class="note">
-              Las diferencias entre métricas explican por qué un país puede mostrar miles de millones de intentos de ataque y, al mismo tiempo, unos pocos miles de incidentes formalmente reportados. No se trata de contradicción, sino de niveles distintos de observación del riesgo.
-            </p>
-          </aside>
-        </div>
-      </div>
-    </section>
+  <div class="card">
+    <h3>🎯 Situación</h3>
+    <ul>
+      <li>Aumento de incidentes</li>
+      <li>Mayor digitalización</li>
+      <li>Crecimiento del ransomware</li>
+    </ul>
+  </div>
 
-    <section id="indicadores">
-      <div class="container">
-        <h2>Indicadores clave</h2>
-        <div class="grid stats-grid">
-          <div class="card stat">
-            <div class="label">Incidentes CSIRT 2024</div>
-            <div class="value">1,312</div>
-            <div class="small">Top 3: phishing 42%, fraude digital 22%, malware 18%.</div>
-          </div>
-          <div class="card stat">
-            <div class="label">Incidentes CSIRT 2025</div>
-            <div class="value">3,700</div>
-            <div class="small">Visualización pública con categorías como compromiso de cuentas, malware, fraude, SQLi y ransomware.</div>
-          </div>
-          <div class="card stat">
-            <div class="label">Variación CSIRT 2024 → 2025</div>
-            <div class="value highlight">+182%</div>
-            <div class="small">Cálculo derivado de 1,312 a 3,700 incidentes.</div>
-          </div>
-          <div class="card stat">
-            <div class="label">Intentos de ataque en 2024</div>
-            <div class="value warning">+4,000 M</div>
-            <div class="small">Telemetría país según Mastercard.</div>
-          </div>
-          <div class="card stat">
-            <div class="label">Intentos de ataque en 1S-2025</div>
-            <div class="value danger">2,400 M</div>
-            <div class="small">Según cobertura periodística basada en FortiGuard Labs; 1,000 M fueron escaneos activos.</div>
-          </div>
-        </div>
-        <p class="note">
-          Fuentes de esta sección:
-          <a href="https://cert.pa/?p=4183" target="_blank">CSIRT Panamá 2024</a>,
-          <a href="https://cert.pa/?page_id=4092" target="_blank">CSIRT Panamá 2025</a>,
-          <a href="https://www.mastercard.com/car/en/news-and-trends/press/2025/may/panama-avanza-en-su-digitalizacion-mastercard-presenta-hallazgos-clave-sobre-ciberseguridad-y-refuerza-su-compromiso-con-la-proteccion-del-ecosistema-digital.html" target="_blank">Mastercard</a>,
-          <a href="https://ensegundos.com.pa/2025/08/14/panama-registra-2400-millones-de-intentos-de-ciberataques-en-el-2025/" target="_blank">EnSegundos / Fortinet</a>.
-        </p>
-      </div>
-    </section>
+  <div class="card">
+    <h3>⚠️ Amenazas</h3>
+    <ul>
+      <li>Phishing</li>
+      <li>Fraude digital</li>
+      <li>Malware</li>
+      <li>Credenciales comprometidas</li>
+    </ul>
+  </div>
 
-    <section id="graficos">
-      <div class="container">
-        <h2>Gráficos interpretativos</h2>
-        <div class="grid three-col">
-          <article class="card chart-card">
-            <h3>Evolución de incidentes reportados por CSIRT Panamá (2020–2025)</h3>
-            <canvas id="chartTrend"></canvas>
-            <p class="mini">
-              La serie multianual visible en la página de estadísticas de CSIRT Panamá muestra: 620 (2020), 1,427 (2021), 3,940 (2022), 2,726 (2023), 1,312 (2024) y 3,700 (2025). Esto sugiere que 2025 marca un rebote fuerte tras la caída de 2024.
-              <a class="cite" href="https://cert.pa/?page_id=4094" target="_blank">[CSIRT Panamá]</a>
-            </p>
-          </article>
+  <div class="card">
+    <h3>🏢 Sectores</h3>
+    <ul>
+      <li>Financiero</li>
+      <li>Industrial</li>
+      <li>Salud</li>
+      <li>Telecomunicaciones</li>
+    </ul>
+  </div>
 
-          <article class="card chart-card">
-            <h3>Composición de incidentes CSIRT Panamá en 2024</h3>
-            <canvas id="chart2024Mix"></canvas>
-            <p class="mini">
-              En 2024, el reporte oficial prioriza amenazas de ingeniería social y fraude más que ataques complejos a infraestructura, lo que refuerza la hipótesis de que el usuario sigue siendo una superficie crítica de riesgo.
-              <a class="cite" href="https://cert.pa/?p=4183" target="_blank">[CSIRT Panamá 2024]</a>
-            </p>
-          </article>
+</div>
 
-          <article class="card chart-card">
-            <h3>Panorama de amenazas 2024 según Mastercard</h3>
-            <canvas id="chartMastercard"></canvas>
-            <p class="mini">
-              A diferencia del conteo de incidentes reportados, la telemetría de Mastercard destaca malware, ransomware y ataques a la cadena de suministro como presiones de mayor peso en el ecosistema panameño.
-              <a class="cite" href="https://www.mastercard.com/car/en/news-and-trends/press/2025/may/panama-avanza-en-su-digitalizacion-mastercard-presenta-hallazgos-clave-sobre-ciberseguridad-y-refuerza-su-compromiso-con-la-protection-del-ecosistema-digital.html" target="_blank">[Mastercard]</a>
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
+<!-- INDICADORES -->
+<h2>📈 Indicadores Clave</h2>
+<div class="grid three">
 
-    <section id="analisis">
-      <div class="container">
-        <h2>Análisis por año</h2>
+  <div class="card">
+    <h3>2024</h3>
+    <p>1,312 incidentes</p>
+  </div>
 
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-year">2024</div>
-            <h3>Predominio del phishing y del fraude digital</h3>
-            <p>
-              El año 2024 presenta una doble lectura. Desde la perspectiva oficial de respuesta a incidentes, Panamá cerró con <strong>1,312 incidentes</strong> reportados a CSIRT, dominados por <strong>phishing</strong>, <strong>fraude digital</strong> y <strong>malware</strong>. Este patrón sugiere un ecosistema donde los atacantes logran resultados mediante ingeniería social, engaño financiero y software malicioso relativamente accesible, más que por ataques altamente sofisticados en masa.
-              <a class="cite" href="https://cert.pa/?p=4183" target="_blank">[CSIRT Panamá]</a>
-            </p>
-            <p>
-              Sin embargo, la lectura cambia cuando se observa la telemetría empresarial: Mastercard reportó que, durante 2024, los ciberataques semanales a organizaciones panameñas crecieron <strong>97%</strong>, con un promedio de <strong>1,978 ataques por entidad</strong>, y que el país recibió <strong>más de 4 mil millones de intentos de ataque</strong>. Los sectores más presionados fueron el <strong>financiero</strong> y el <strong>industrial</strong>, con un promedio de <strong>2,595 ataques semanales por organización</strong>.
-              <a class="cite" href="https://www.mastercard.com/car/en/news-and-trends/press/2025/may/panama-avanza-en-su-digitalizacion-mastercard-presenta-hallazgos-clave-sobre-ciberseguridad-y-refuerza-su-compromiso-con-la-proteccion-del-ecosistema-digital.html" target="_blank">[Mastercard]</a>
-            </p>
-            <p>
-              El contraste entre ambas fuentes es analíticamente importante: <strong>CSIRT refleja los incidentes que llegan a la gestión formal</strong>, mientras que <strong>Mastercard refleja la presión real del entorno digital</strong>. Esto significa que el volumen de actividad maliciosa contra Panamá probablemente es mucho mayor que el volumen de incidentes formalmente notificados.
-              <a class="cite" href="https://cert.pa/?p=4183" target="_blank">[CSIRT Panamá]</a>
-              <a class="cite" href="https://www.mastercard.com/car/en/news-and-trends/press/2025/may/panama-avanza-en-su-digitalizacion-mastercard-presenta-hallazgos-clave-sobre-ciberseguridad-y-refuerza-su-compromiso-con-la-proteccion-del-ecosistema-digital.html" target="_blank">[Mastercard]</a>
-            </p>
-          </div>
+  <div class="card">
+    <h3>2025</h3>
+    <p>3,700 incidentes</p>
+  </div>
 
-          <div class="timeline-item">
-            <div class="timeline-year">2025</div>
-            <h3>Escalada de incidentes y ampliación del espectro técnico</h3>
-            <p>
-              La visualización pública de estadísticas 2025 de CSIRT Panamá reporta <strong>3,700 incidentes</strong>, lo que implica un incremento aproximado de <strong>182%</strong> respecto a 2024. Además, la taxonomía visible para 2025 incorpora categorías como compromiso de cuentas no privilegiadas, compromiso de aplicaciones, divulgación de información sensitiva, inyección SQL y ransomware, señal de un panorama más amplio y más técnico que el resumido para 2024.
-              <a class="cite" href="https://cert.pa/?page_id=4092" target="_blank">[CSIRT Panamá 2025]</a>
-            </p>
-            <p>
-              En paralelo, la cobertura periodística basada en datos de <a href="https://www.fortinet.com/" target="_blank">FortiGuard Labs</a> informó que Panamá acumuló <strong>2,400 millones de intentos de ciberataque en la primera mitad de 2025</strong>, de los cuales <strong>1,000 millones</strong> fueron escaneos activos. Esta misma cobertura señala que la infraestructura crítica y los entornos TI/OT ganaron peso como objetivos, con atención particular sobre manufactura, telecomunicaciones, salud y servicios financieros.
-              <a class="cite" href="https://ensegundos.com.pa/2025/08/14/panama-registra-2400-millones-de-intentos-de-ciberataques-en-el-2025/" target="_blank">[EnSegundos / Fortinet]</a>
-            </p>
-            <p>
-              A nivel penal, el Ministerio Público registró que las denuncias de <strong>estafa y otros fraudes</strong> pasaron de <strong>5,489 casos en 2024</strong> a <strong>6,230 en 2025</strong>, un aumento de <strong>13%</strong>. En contraste, el artículo 226 sobre <strong>modificación o manipulación de programas informáticos</strong> cayó de <strong>222</strong> a <strong>101 casos</strong> (-55%). Esto sugiere que la presión criminal se mantuvo muy fuerte en el componente económico-fraudulento, aunque no todos los delitos digitales crecieron al mismo ritmo.
-              <a class="cite" href="https://ministeriopublico.gob.pa/wp-content/uploads/Informe-Estadistico-de-Delitos-de-Estafas-y-Otros-Fraudes-diciembre-2025.pdf" target="_blank">[Ministerio Público]</a>
-            </p>
-            <p>
-              En 2025 también se registró un incidente relevante en el <a href="https://www.mef.gob.pa/" target="_blank">Ministerio de Economía y Finanzas (MEF)</a>. El comunicado oficial del MEF informó que el 9 de septiembre se detectó posible software malicioso en una estación de trabajo y que los sistemas centrales no fueron comprometidos. No obstante, fuentes externas como BleepingComputer y Check Point señalaron que el grupo INC Ransom afirmó haber robado más de 1.5 TB de información. Para un análisis riguroso, lo correcto es distinguir entre el <strong>hecho confirmado oficialmente</strong> y la <strong>atribución o reclamación externa</strong>.
-              <a class="cite" href="https://www.mef.gob.pa/2025/09/comunicado-oficial/" target="_blank">[MEF]</a>
-              <a class="cite" href="https://www.bleepingcomputer.com/news/security/panama-ministry-of-economy-discloses-breach-claimed-by-inc-ransomware/" target="_blank">[BleepingComputer]</a>
-              <a class="cite" href="https://research.checkpoint.com/2025/15th-september-threat-intelligence-report/" target="_blank">[Check Point Research]</a>
-            </p>
-          </div>
+  <div class="card">
+    <h3>Crecimiento</h3>
+    <p>+182%</p>
+  </div>
 
-          <div class="timeline-item">
-            <div class="timeline-year">2026 (corte parcial al 28/03/2026)</div>
-            <h3>Sin estadística anual consolidada, pero con amenazas persistentes claras</h3>
-            <p>
-              Hasta el 28 de marzo de 2026 no se observó en el sitio público de CSIRT Panamá una estadística anual consolidada equivalente a 2025. Sí aparecen, en cambio, publicaciones que muestran las preocupaciones prioritarias del momento: <strong>ransomware</strong>, <strong>seguridad de bases de datos</strong>, <strong>seguridad de WordPress</strong> y <strong>vulnerabilidades críticas</strong> en plataformas ampliamente usadas.
-              <a class="cite" href="https://cert.pa/?m=202603" target="_blank">[CSIRT marzo 2026]</a>
-            </p>
-            <p>
-              Un ejemplo concreto es el aviso de CSIRT Panamá sobre <strong>CVE-2026-21992</strong>, vulnerabilidad crítica en productos Oracle que permitiría <strong>ejecución remota de código</strong> por un atacante no autenticado con acceso por HTTP. La naturaleza de este tipo de vulnerabilidades confirma que el riesgo ya no es solo de phishing o fraude, sino de compromiso directo de servicios empresariales e institucionales expuestos.
-              <a class="cite" href="https://cert.pa/?p=5021" target="_blank">[CSIRT Panamá - Oracle]</a>
-            </p>
-            <p>
-              Asimismo, en enero de 2026, CSIRT Panamá publicó una alerta sobre la exposición en línea de <strong>149,404,754 credenciales</strong>, incluyendo servicios como Gmail, Facebook, Instagram, TikTok y Binance. Aunque el hallazgo no corresponde exclusivamente a Panamá, es muy relevante para el país porque el <strong>compromiso de credenciales</strong> alimenta campañas de phishing, fraude, toma de cuentas y ransomware, especialmente en entornos con alta dependencia de correo electrónico y servicios financieros.
-              <a class="cite" href="https://cert.pa/?p=4973" target="_blank">[CSIRT Panamá - Credenciales]</a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+</div>
 
-    <section id="riesgos">
-      <div class="container">
-        <div class="grid two-col">
-          <article class="card">
-            <span class="pill">Tipos de amenazas</span>
-            <h2>Riesgos más relevantes para Panamá</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Amenaza</th>
-                  <th>Evidencia</th>
-                  <th>Impacto probable</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Phishing e ingeniería social</td>
-                  <td>Fue la categoría líder en 2024 con 42% de los incidentes CSIRT; además, CSIRT y Fortinet la describen como vector central de entrada.</td>
-                  <td>Robo de credenciales, fraude, toma de cuentas, acceso inicial para ransomware.</td>
-                </tr>
-                <tr>
-                  <td>Fraude digital</td>
-                  <td>Segundo lugar en 2024 (22%) y aumento de 13% en denuncias de estafa y otros fraudes entre 2024 y 2025.</td>
-                  <td>Pérdidas económicas directas, daño reputacional y afectación al usuario final.</td>
-                </tr>
-                <tr>
-                  <td>Malware y robo de información</td>
-                  <td>Tercer lugar en 2024 (18%) y presencia sostenida en los reportes corporativos de 2024–2025.</td>
-                  <td>Exfiltración de datos, espionaje, persistencia y venta de accesos.</td>
-                </tr>
-                <tr>
-                  <td>Ransomware</td>
-                  <td>Mastercard le asigna 23% dentro del panorama 2024; CSIRT lo destaca expresamente en 2026 como amenaza persistente; el caso MEF muestra riesgo real en sector público.</td>
-                  <td>Interrupción operativa, extorsión, filtración de datos y presión reputacional.</td>
-                </tr>
-                <tr>
-                  <td>Compromiso de cuentas y credenciales</td>
-                  <td>Visible en la taxonomía CSIRT 2025 y reforzado por la alerta de 149.4 millones de credenciales expuestas en 2026.</td>
-                  <td>Escalada lateral, fraude, BEC, toma de cuentas bancarias y abuso de identidad.</td>
-                </tr>
-                <tr>
-                  <td>Compromiso de aplicaciones / SQLi / defacement</td>
-                  <td>Estas categorías aparecen listadas en la visualización pública 2025 de CSIRT Panamá.</td>
-                  <td>Alteración de sitios, fuga de datos, explotación de sistemas web y debilitamiento de confianza institucional.</td>
-                </tr>
-              </tbody>
-            </table>
-            <p class="note">
-              Fuentes:
-              <a href="https://cert.pa/?p=4183" target="_blank">CSIRT Panamá 2024</a>,
-              <a href="https://cert.pa/?page_id=4092" target="_blank">CSIRT Panamá 2025</a>,
-              <a href="https://cert.pa/?p=4996" target="_blank">CSIRT Panamá 2026 - Ransomware</a>,
-              <a href="https://cert.pa/?p=4973" target="_blank">CSIRT Panamá 2026 - Credenciales</a>,
-              <a href="https://www.mastercard.com/car/en/news-and-trends/press/2025/may/panama-avanza-en-su-digitalizacion-mastercard-presenta-hallazgos-clave-sobre-ciberseguridad-y-refuerza-su-compromiso-con-la-proteccion-del-ecosistema-digital.html" target="_blank">Mastercard</a>,
-              <a href="https://ministeriopublico.gob.pa/wp-content/uploads/Informe-Estadistico-de-Delitos-de-Estafas-y-Otros-Fraudes-diciembre-2025.pdf" target="_blank">Ministerio Público</a>.
-            </p>
-          </article>
+<!-- BARRAS -->
+<h2>📊 Tipos de Ataques</h2>
+<div class="grid three">
 
-          <article class="card">
-            <span class="pill">Sectores y gobernanza</span>
-            <h2>Organizaciones más expuestas e implicaciones</h2>
-            <p>
-              Los datos de Mastercard para 2024 ubican al <strong>sector financiero</strong> y al <strong>industrial</strong> como los más afectados, mientras que la cobertura basada en Fortinet para 2025 agrega <strong>manufactura</strong>, <strong>telecomunicaciones</strong>, <strong>salud</strong> y <strong>servicios financieros</strong> como objetivos prioritarios. Esta coincidencia sugiere que los ataques siguen la lógica del valor operacional: donde hay dinero, continuidad crítica o datos sensibles, hay mayor presión criminal.
-              <a class="cite" href="https://www.mastercard.com/car/en/news-and-trends/press/2025/may/panama-avanza-en-su-digitalizacion-mastercard-presenta-hallazgos-clave-sobre-ciberseguridad-y-refuerza-su-compromiso-con-la-proteccion-del-ecosistema-digital.html" target="_blank">[Mastercard]</a>
-              <a class="cite" href="https://ensegundos.com.pa/2025/08/14/panama-registra-2400-millones-de-intentos-de-ciberataques-en-el-2025/" target="_blank">[EnSegundos / Fortinet]</a>
-            </p>
-            <p>
-              El Estado panameño parece haber reconocido esta presión. En 2025, la AIG informó que Panamá alcanzó el puesto <strong>43 de 140 países</strong> en el World CyberDrill 2025, lo que indica avances en capacidad de respuesta y preparación. Paralelamente, medios nacionales reportaron que para 2026 se impulsa la creación de un <strong>Centro de Operaciones de Seguridad (SOC)</strong> con apoyo del BID para pasar de un esquema reactivo a uno preventivo.
-              <a class="cite" href="https://aig.gob.pa/panama-alcanza-la-posicion-43-entre-140-paises-en-el-world-cyberdrill-2025/" target="_blank">[AIG]</a>
-              <a class="cite" href="https://www.tvn-2.com/nacionales/panama-centro-de-operaciones-de-ciberseguridad-amenazas-digitales_1_2220110.html" target="_blank">[TVN]</a>
-              <a class="cite" href="https://www.prensa.com/economia/la-aig-apuesta-en-2026-por-sostener-sus-plataformas-y-enfrentar-los-ciberataques/" target="_blank">[La Prensa]</a>
-            </p>
-            <p>
-              La lectura estratégica es clara: Panamá ya no necesita solo más herramientas, sino <strong>más capacidad institucional</strong>, <strong>mejor gobernanza de identidades</strong>, <strong>protección de aplicaciones expuestas</strong> y <strong>coordinación interinstitucional</strong>. La transición hacia un SOC es coherente con la evolución observada de las amenazas.
-              <a class="cite" href="https://www.prensa.com/economia/la-aig-apuesta-en-2026-por-sostener-sus-plataformas-y-enfrentar-los-ciberataques/" target="_blank">[La Prensa]</a>
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
+  <div class="card">
+    <h3>Phishing 42%</h3>
+    <div class="progress"><div class="bar" style="width:42%"></div></div>
+  </div>
 
-    <section id="conclusiones">
-      <div class="container">
-        <div class="grid two-col">
-          <article class="card">
-            <span class="pill">Conclusiones</span>
-            <h2>Conclusiones del estudio</h2>
-            <ol class="conclusion-list">
-              <li><strong>Panamá vive una intensificación real del riesgo cibernético.</strong> La subida de 1,312 a 3,700 incidentes CSIRT entre 2024 y 2025 y las cifras multimillonarias de intentos de ataque muestran un entorno más hostil y más frecuente.</li>
-              <li><strong>La ingeniería social sigue siendo el punto de quiebre.</strong> Phishing, fraude digital y compromiso de credenciales aparecen de forma reiterada en 2024, 2025 y 2026.</li>
-              <li><strong>El ransomware gana peso estratégico.</strong> No solo por la cifra de Mastercard, sino por la insistencia de CSIRT Panamá en 2026 y por el caso del MEF en 2025.</li>
-              <li><strong>Los sectores críticos y altamente digitalizados concentran la presión.</strong> Finanzas, industria, manufactura, telecomunicaciones, salud y sistemas públicos son objetivos preferentes.</li>
-              <li><strong>La madurez institucional mejora, pero aún está en construcción.</strong> El SOC proyectado para 2026 es una respuesta correcta, aunque llega en un contexto de amenaza acelerada.</li>
-            </ol>
-          </article>
+  <div class="card">
+    <h3>Fraude 22%</h3>
+    <div class="progress"><div class="bar" style="width:22%"></div></div>
+  </div>
 
-          <article class="card">
-            <span class="pill">Recomendaciones</span>
-            <h2>Recomendaciones para organizaciones y usuarios</h2>
-            <ol class="conclusion-list">
-              <li><strong>Adoptar MFA obligatoria</strong> en correo, banca, VPN, paneles administrativos y cuentas privilegiadas.</li>
-              <li><strong>Fortalecer la concienciación</strong> contra phishing, BEC, enlaces maliciosos y suplantación.</li>
-              <li><strong>Aplicar gestión continua de vulnerabilidades</strong>, con especial foco en aplicaciones web, WordPress, VPN, servicios remotos y plataformas Oracle/Microsoft.</li>
-              <li><strong>Implementar copias de seguridad verificadas e inmutables</strong> siguiendo enfoques como 3-2-1-1-0 ante ransomware.</li>
-              <li><strong>Mejorar monitoreo de identidades y cuentas</strong> para detectar accesos anómalos, credential stuffing y movimientos laterales.</li>
-              <li><strong>Preparar planes de respuesta a incidentes</strong> con simulacros, responsables claros y canales de escalamiento con CSIRT Panamá.</li>
-              <li><strong>Reforzar la seguridad de terceros</strong> y de la cadena de suministro digital, dado su peso en el panorama 2024.</li>
-              <li><strong>Promover cultura digital ciudadana</strong> desde escuela, universidad y servicio público, no solo desde TI.</li>
-            </ol>
-          </article>
-        </div>
-      </div>
-    </section>
+  <div class="card">
+    <h3>Malware 18%</h3>
+    <div class="progress"><div class="bar" style="width:18%"></div></div>
+  </div>
 
-    <section>
-      <div class="container">
-        <article class="card">
-          <span class="pill">Limitaciones del análisis</span>
-          <h2>Qué no debe interpretarse de forma incorrecta</h2>
-          <p>
-            Este trabajo no debe leerse como una suma lineal de todas las cifras encontradas. <strong>Un incidente reportado, un intento de ataque y una denuncia penal no representan lo mismo.</strong> Tampoco se encontró, hasta el 28/03/2026, una estadística anual pública consolidada de CSIRT Panamá para 2026 equivalente a la de 2025; por ello, el año 2026 se interpreta aquí como <strong>fase de continuidad y alerta técnica</strong>, no como cierre estadístico anual.
-            <a class="cite" href="https://cert.pa/?page_id=4092" target="_blank">[CSIRT 2025]</a>
-            <a class="cite" href="https://cert.pa/?m=202603" target="_blank">[CSIRT marzo 2026]</a>
-          </p>
-        </article>
-      </div>
-    </section>
+</div>
 
-    <section id="referencias">
-      <div class="container">
-        <article class="card">
-          <span class="pill">Referencias</span>
-          <h2>Referencias en formato APA 7 (adaptado para web)</h2>
-          <ol class="ref-list">
-            <li>Autoridad Nacional para la Innovación Gubernamental. (2025). <em>Panamá alcanza la posición 43 entre 140 países en el World CyberDrill 2025</em>. <a href="https://aig.gob.pa/panama-alcanza-la-posicion-43-entre-140-paises-en-el-world-cyberdrill-2025/" target="_blank">https://aig.gob.pa/panama-alcanza-la-posicion-43-entre-140-paises-en-el-world-cyberdrill-2025/</a></li>
-            <li>BleepingComputer. (2025, septiembre 11). <em>Panama Ministry of Economy discloses breach claimed by INC ransomware</em>. <a href="https://www.bleepingcomputer.com/news/security/panama-ministry-of-economy-discloses-breach-claimed-by-inc-ransomware/" target="_blank">https://www.bleepingcomputer.com/news/security/panama-ministry-of-economy-discloses-breach-claimed-by-inc-ransomware/</a></li>
-            <li>Check Point Research. (2025, septiembre 15). <em>15th September – Threat Intelligence Report</em>. <a href="https://research.checkpoint.com/2025/15th-september-threat-intelligence-report/" target="_blank">https://research.checkpoint.com/2025/15th-september-threat-intelligence-report/</a></li>
-            <li>CSIRT Panamá. (2025). <em>Estadísticas de incidencias de seguridad informática 2024 en el país</em>. <a href="https://cert.pa/?p=4183" target="_blank">https://cert.pa/?p=4183</a></li>
-            <li>CSIRT Panamá. (2026). <em>Estadísticas 2025</em>. <a href="https://cert.pa/?page_id=4092" target="_blank">https://cert.pa/?page_id=4092</a></li>
-            <li>CSIRT Panamá. (2026). <em>Estadísticas</em>. <a href="https://cert.pa/?page_id=4094" target="_blank">https://cert.pa/?page_id=4094</a></li>
-            <li>CSIRT Panamá. (2026, enero 27). <em>149 millones de credenciales expuestas en línea</em>. <a href="https://cert.pa/?p=4973" target="_blank">https://cert.pa/?p=4973</a></li>
-            <li>CSIRT Panamá. (2026, marzo 4). <em>Ransomware: una amenaza persistente en la era digital</em>. <a href="https://cert.pa/?p=4996" target="_blank">https://cert.pa/?p=4996</a></li>
-            <li>CSIRT Panamá. (2026, marzo 20). <em>CSIRT Panamá Aviso 2026-03-20 Oracle: Ejecución de código en remoto en Oracle</em>. <a href="https://cert.pa/?p=5021" target="_blank">https://cert.pa/?p=5021</a></li>
-            <li>CSIRT Panamá. (2026, marzo). <em>Archivo de publicaciones de marzo 2026</em>. <a href="https://cert.pa/?m=202603" target="_blank">https://cert.pa/?m=202603</a></li>
-            <li>EnSegundos. (2025, agosto 14). <em>Panamá registra 2400 millones de intentos de ciberataques en el 2025</em>. <a href="https://ensegundos.com.pa/2025/08/14/panama-registra-2400-millones-de-intentos-de-ciberataques-en-el-2025/" target="_blank">https://ensegundos.com.pa/2025/08/14/panama-registra-2400-millones-de-intentos-de-ciberataques-en-el-2025/</a></li>
-            <li>La Prensa. (2025). <em>La AIG apuesta en 2026 por sostener sus plataformas y enfrentar los ciberataques</em>. <a href="https://www.prensa.com/economia/la-aig-apuesta-en-2026-por-sostener-sus-plataformas-y-enfrentar-los-ciberataques/" target="_blank">https://www.prensa.com/economia/la-aig-apuesta-en-2026-por-sostener-sus-plataformas-y-enfrentar-los-ciberataques/</a></li>
-            <li>Mastercard. (2025, mayo). <em>Panamá avanza en su digitalización: Mastercard presenta hallazgos clave sobre ciberseguridad y refuerza su compromiso con la protección del ecosistema digital</em>. <a href="https://www.mastercard.com/car/en/news-and-trends/press/2025/may/panama-avanza-en-su-digitalizacion-mastercard-presenta-hallazgos-clave-sobre-ciberseguridad-y-refuerza-su-compromiso-con-la-proteccion-del-ecosistema-digital.html" target="_blank">https://www.mastercard.com/car/en/news-and-trends/press/2025/may/panama-avanza-en-su-digitalizacion-mastercard-presenta-hallazgos-clave-sobre-ciberseguridad-y-refuerza-su-compromiso-con-la-proteccion-del-ecosistema-digital.html</a></li>
-            <li>Ministerio de Economía y Finanzas. (2025, septiembre 9). <em>Comunicado oficial</em>. <a href="https://www.mef.gob.pa/2025/09/comunicado-oficial/" target="_blank">https://www.mef.gob.pa/2025/09/comunicado-oficial/</a></li>
-            <li>Ministerio Público de Panamá. (2025). <em>Informe estadístico de delitos de estafas y otros fraudes, diciembre 2025</em>. <a href="https://ministeriopublico.gob.pa/wp-content/uploads/Informe-Estadistico-de-Delitos-de-Estafas-y-Otros-Fraudes-diciembre-2025.pdf" target="_blank">https://ministeriopublico.gob.pa/wp-content/uploads/Informe-Estadistico-de-Delitos-de-Estafas-y-Otros-Fraudes-diciembre-2025.pdf</a></li>
-            <li>TVN Noticias. (2025). <em>Panamá podría tener un Centro de Operaciones de Ciberseguridad para 2026</em>. <a href="https://www.tvn-2.com/nacionales/panama-centro-de-operaciones-de-ciberseguridad-amenazas-digitales_1_2220110.html" target="_blank">https://www.tvn-2.com/nacionales/panama-centro-de-operaciones-de-ciberseguridad-amenazas-digitales_1_2220110.html</a></li>
-          </ol>
-        </article>
-      </div>
-    </section>
-  </main>
+<!-- GRAFICO -->
+<h2>📉 Evolución de Incidentes</h2>
+<div class="card">
+  <canvas id="chart"></canvas>
+</div>
 
-  <footer class="footer">
-    <div class="container">
-      <p>
-        Documento web preparado para uso académico. Recomendación: si vas a entregarlo como trabajo formal, añade portada, nombre del estudiante, curso, docente y fecha, y revisa el formato APA final según los lineamientos de tu institución.
-      </p>
-    </div>
-  </footer>
+<!-- ANALISIS -->
+<h2>🧠 Análisis</h2>
+<div class="grid three">
 
-  <script>
-    const commonOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          labels: { color: "#dfe7ff", font: { size: 12 } }
-        },
-        tooltip: {
-          backgroundColor: "rgba(11,16,32,.95)",
-          titleColor: "#fff",
-          bodyColor: "#dfe7ff",
-          borderColor: "rgba(255,255,255,.12)",
-          borderWidth: 1
-        }
-      },
-      scales: {
-        x: {
-          ticks: { color: "#c8d5fb" },
-          grid: { color: "rgba(255,255,255,.08)" }
-        },
-        y: {
-          ticks: { color: "#c8d5fb" },
-          grid: { color: "rgba(255,255,255,.08)" }
-        }
-      }
-    };
+  <div class="card">
+    <h3>🔍 Insight</h3>
+    <p>Aumento fuerte de ataques en 2025.</p>
+  </div>
 
-    new Chart(document.getElementById("chartTrend"), {
-      type: "line",
-      data: {
-        labels: ["2020", "2021", "2022", "2023", "2024", "2025"],
-        datasets: [{
-          label: "Incidentes reportados",
-          data: [620, 1427, 3940, 2726, 1312, 3700],
-          borderColor: "#7c9cff",
-          backgroundColor: "rgba(124,156,255,.20)",
-          fill: true,
-          tension: .28,
-          borderWidth: 3,
-          pointRadius: 4,
-          pointBackgroundColor: "#43d3b5"
-        }]
-      },
-      options: commonOptions
-    });
+  <div class="card">
+    <h3>⚙️ Técnica</h3>
+    <p>Predominio de ingeniería social.</p>
+  </div>
 
-    new Chart(document.getElementById("chart2024Mix"), {
-      type: "doughnut",
-      data: {
-        labels: 
+  <div class="card">
+    <h3>🚨 Riesgo</h3>
+    <p>Alta probabilidad de ransomware.</p>
+  </div>
+
+</div>
+
+<!-- CONCLUSION -->
+<h2>✅ Conclusión</h2>
+<div class="card">
+  <ul>
+    <li>Incremento real de amenazas</li>
+    <li>Usuarios como punto débil</li>
+    <li>Necesidad de mayor seguridad</li>
+  </ul>
+</div>
+
+</div>
+
+<script>
+new Chart(document.getElementById("chart"), {
+  type: "line",
+  data: {
+    labels: ["2020","2021","2022","2023","2024","2025"],
+    datasets: [{
+      label: "Incidentes",
+      data: [620,1427,3940,2726,1312,3700],
+      borderColor:"#7c9cff",
+      fill:true
+    }]
+  }
+});
+</script>
+
+</body>
+</html>
