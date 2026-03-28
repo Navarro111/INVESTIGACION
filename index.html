@@ -3,262 +3,1194 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cyber Panamá PRO</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<title>Ciberseguridad en Panamá 2024–2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-body{
-  margin:0;
-  font-family: 'Segoe UI', sans-serif;
-  overflow:hidden;
-  color:white;
-  background:#0a0f1f;
-}
-
-/* FONDO TECNOLÓGICO */
-canvas#bg{
-  position:fixed;
-  top:0;
-  left:0;
-  z-index:-1;
-}
-
-/* SLIDES */
-.slide{
-  position:absolute;
-  width:100%;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  opacity:0;
-  transform:translateX(100px) scale(.95);
-  transition:all .6s ease;
-}
-
-.active{
-  opacity:1;
-  transform:translateX(0) scale(1);
-}
-
-/* CARD */
-.card{
-  background:rgba(255,255,255,.05);
-  backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:20px;
-  padding:30px;
-  max-width:800px;
-  box-shadow:0 0 30px rgba(124,156,255,.3);
-}
-
-/* TITULOS */
-h1{
-  font-size:3rem;
-}
-h2{
-  color:#7c9cff;
-}
-
-/* GRID */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:15px;
-}
-
-/* BARRA PROGRESO */
-#progress{
-  position:fixed;
-  top:0;
-  left:0;
-  height:5px;
-  background:#7c9cff;
-  width:0%;
-}
-
-/* NAV */
-.nav{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-}
-
-button{
-  background:#7c9cff;
-  border:none;
-  padding:12px;
-  margin:5px;
-  border-radius:10px;
-  color:white;
-  cursor:pointer;
-}
+  :root {
+    --bg:        #030812;
+    --bg2:       #060f1e;
+    --panel:     #0a1628;
+    --panel2:    #0d1f38;
+    --cyan:      #00e5ff;
+    --cyan2:     #00bcd4;
+    --purple:    #7c3aed;
+    --purple2:   #a855f7;
+    --red:       #ff1744;
+    --orange:    #ff6d00;
+    --gold:      #ffd600;
+    --green:     #00e676;
+    --text:      #c8d8f0;
+    --text2:     #7a9bbf;
+    --border:    rgba(0,229,255,0.15);
+    --glow:      0 0 20px rgba(0,229,255,0.3);
+    --glow-sm:   0 0 8px rgba(0,229,255,0.4);
+  }
+ 
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+  html { scroll-behavior: smooth; }
+ 
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: default;
+  }
+ 
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999; opacity: 0.4;
+  }
+ 
+  /* ── GRID BACKGROUND ── */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none; z-index: 0;
+  }
+ 
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--cyan2); border-radius: 3px; }
+ 
+  /* ══════════════════════════════════════
+     HERO
+  ══════════════════════════════════════ */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    overflow: hidden;
+    z-index: 1;
+  }
+ 
+  /* Animated rings */
+  .hero-rings {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+  }
+  .ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(0,229,255,0.08);
+    animation: pulse-ring 4s ease-in-out infinite;
+  }
+  .ring:nth-child(1) { width: 300px; height: 300px; animation-delay: 0s; }
+  .ring:nth-child(2) { width: 500px; height: 500px; animation-delay: 0.5s; border-color: rgba(124,58,237,0.08); }
+  .ring:nth-child(3) { width: 720px; height: 720px; animation-delay: 1s; }
+  .ring:nth-child(4) { width: 960px; height: 960px; animation-delay: 1.5s; border-color: rgba(124,58,237,0.05); }
+ 
+  @keyframes pulse-ring {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.04); opacity: 1; }
+  }
+ 
+  /* Scan line */
+  .scanline {
+    position: absolute; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    opacity: 0.3;
+    animation: scan 6s linear infinite;
+  }
+  @keyframes scan {
+    0% { top: -2px; }
+    100% { top: 100%; }
+  }
+ 
+  .hero-badge {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border: 1px solid var(--cyan);
+    border-radius: 2px;
+    margin-bottom: 28px;
+    position: relative;
+    animation: fadeup 0.8s ease both;
+    box-shadow: var(--glow-sm);
+  }
+ 
+  .hero-title {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(2rem, 6vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #fff 0%, var(--cyan) 50%, var(--purple2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+    animation: fadeup 0.8s 0.15s ease both;
+  }
+ 
+  .hero-sub {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(1rem, 3vw, 1.8rem);
+    color: var(--cyan);
+    letter-spacing: 6px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    animation: fadeup 0.8s 0.3s ease both;
+  }
+ 
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--text2);
+    max-width: 640px;
+    margin-bottom: 48px;
+    font-weight: 300;
+    animation: fadeup 0.8s 0.45s ease both;
+  }
+ 
+  /* KPI row */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    width: 100%;
+    max-width: 880px;
+    animation: fadeup 0.8s 0.6s ease both;
+  }
+  @media (max-width: 700px) { .kpi-grid { grid-template-columns: repeat(2,1fr); } }
+ 
+  .kpi-card {
+    background: rgba(10,22,40,0.9);
+    border: 1px solid var(--border);
+    padding: 20px 14px;
+    position: relative;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .kpi-card:hover {
+    border-color: var(--cyan);
+    box-shadow: var(--glow);
+  }
+  .kpi-val {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.7rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .kpi-label {
+    font-size: 0.72rem;
+    color: var(--text2);
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 1px;
+    line-height: 1.4;
+  }
+  .kpi-card:nth-child(1) .kpi-val { color: var(--cyan); text-shadow: 0 0 12px rgba(0,229,255,0.6); }
+  .kpi-card:nth-child(2) .kpi-val { color: var(--orange); text-shadow: 0 0 12px rgba(255,109,0,0.6); }
+  .kpi-card:nth-child(3) .kpi-val { color: var(--red); text-shadow: 0 0 12px rgba(255,23,68,0.5); }
+  .kpi-card:nth-child(4) .kpi-val { color: var(--purple2); text-shadow: 0 0 12px rgba(168,85,247,0.6); }
+ 
+  /* Nav dots */
+  .scroll-hint {
+    position: absolute; bottom: 28px;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    animation: fadeup 1s 1s ease both;
+  }
+  .scroll-hint span { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text2); letter-spacing: 2px; }
+  .scroll-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--cyan);
+    animation: bounce 1.4s ease-in-out infinite;
+    box-shadow: 0 0 8px var(--cyan);
+  }
+  @keyframes bounce { 0%,100%{transform:translateY(0)}50%{transform:translateY(6px)} }
+ 
+  /* ── FADE UP ANIM ── */
+  @keyframes fadeup {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+ 
+  /* ══════════════════════════════════════
+     SECTION LAYOUT
+  ══════════════════════════════════════ */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+ 
+  section { position: relative; z-index: 1; padding: 80px 0; }
+  section:nth-child(even) { background: rgba(6,15,30,0.6); }
+ 
+  .section-header {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 48px;
+  }
+  .section-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.65rem;
+    color: var(--cyan);
+    border: 1px solid var(--cyan);
+    padding: 4px 10px;
+    letter-spacing: 2px;
+    white-space: nowrap;
+    box-shadow: var(--glow-sm);
+  }
+  .section-title {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 2px;
+  }
+  .section-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--cyan), transparent);
+    opacity: 0.4;
+  }
+ 
+  /* ══════════════════════════════════════
+     INTRO / CONTEXTO
+  ══════════════════════════════════════ */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+ 
+  .info-block {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 28px;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+  .info-block::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--cyan);
+  }
+  .info-block:hover { border-color: rgba(0,229,255,0.4); }
+  .info-block h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.85rem;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .info-block h3 span { font-size: 1.1rem; }
+  .info-block p { color: var(--text); font-size: 0.95rem; line-height: 1.8; font-weight: 300; }
+ 
+  /* ══════════════════════════════════════
+     CHARTS SECTION
+  ══════════════════════════════════════ */
+  .charts-wrapper { display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; }
+  @media (max-width: 900px) { .charts-wrapper { grid-template-columns: 1fr; } }
+ 
+  .chart-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .chart-panel::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--purple), var(--cyan));
+  }
+  .chart-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+ 
+  /* Bar chart */
+  .bar-chart { display: flex; flex-direction: column; gap: 14px; }
+  .bar-row { display: flex; align-items: center; gap: 12px; }
+  .bar-label { font-family: 'Share Tech Mono', monospace; font-size: 0.72rem; color: var(--text2); width: 90px; flex-shrink: 0; }
+  .bar-track { flex: 1; height: 28px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); position: relative; overflow: hidden; }
+  .bar-fill {
+    height: 100%;
+    display: flex; align-items: center; justify-content: flex-end; padding-right: 8px;
+    font-family: 'Orbitron', monospace; font-size: 0.7rem; font-weight: 700; color: #fff;
+    position: relative; overflow: hidden;
+    animation: bar-in 1.2s cubic-bezier(0.16,1,0.3,1) both;
+    transform-origin: left;
+  }
+  .bar-fill::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent 60%, rgba(255,255,255,0.15));
+  }
+  @keyframes bar-in { from { width: 0 !important; } }
+ 
+  .bar-fill.ph { background: linear-gradient(90deg, #7c3aed, #a855f7); width: 42%; }
+  .bar-fill.fr { background: linear-gradient(90deg, #0891b2, #00e5ff); width: 22%; }
+  .bar-fill.ma { background: linear-gradient(90deg, #0d9488, #2dd4bf); width: 18%; }
+  .bar-fill.vu { background: linear-gradient(90deg, #b45309, #fbbf24); width: 10%; }
+  .bar-fill.ot { background: linear-gradient(90deg, #374151, #6b7280); width: 8%; }
+ 
+  /* Donut */
+  .donut-wrap { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+  .donut-svg { width: 200px; height: 200px; }
+  .donut-legend { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+  .legend-row { display: flex; align-items: center; gap: 10px; font-size: 0.83rem; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .legend-label { color: var(--text2); flex: 1; font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; }
+  .legend-val { font-family: 'Orbitron', monospace; font-size: 0.75rem; color: #fff; }
+ 
+  /* ══════════════════════════════════════
+     TIMELINE
+  ══════════════════════════════════════ */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+    background: linear-gradient(180deg, var(--cyan), var(--purple), var(--red));
+  }
+  .timeline-item {
+    position: relative; margin-bottom: 36px;
+    animation: fadeup 0.6s ease both;
+  }
+  .timeline-dot {
+    position: absolute; left: -38px; top: 6px;
+    width: 12px; height: 12px; border-radius: 50%;
+    border: 2px solid var(--cyan);
+    background: var(--bg);
+    box-shadow: 0 0 12px var(--cyan);
+  }
+  .timeline-year {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem; color: var(--cyan);
+    letter-spacing: 2px; margin-bottom: 6px;
+  }
+  .timeline-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.9rem; color: #fff;
+    margin-bottom: 8px;
+  }
+  .timeline-text { color: var(--text2); font-size: 0.9rem; font-weight: 300; }
+  .tag {
+    display: inline-block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-right: 6px; margin-top: 6px;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .tag-red   { background: rgba(255,23,68,0.15); color: var(--red); border: 1px solid rgba(255,23,68,0.3); }
+  .tag-cyan  { background: rgba(0,229,255,0.1);  color: var(--cyan); border: 1px solid rgba(0,229,255,0.3); }
+  .tag-purple{ background: rgba(168,85,247,0.1); color: var(--purple2); border: 1px solid rgba(168,85,247,0.3); }
+  .tag-orange{ background: rgba(255,109,0,0.1);  color: var(--orange); border: 1px solid rgba(255,109,0,0.3); }
+ 
+  /* ══════════════════════════════════════
+     THREAT CARDS
+  ══════════════════════════════════════ */
+  .threat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+  @media (max-width: 900px) { .threat-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .threat-grid { grid-template-columns: 1fr; } }
+ 
+  .threat-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    cursor: default;
+  }
+  .threat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 20px rgba(0,229,255,0.1);
+    border-color: rgba(0,229,255,0.35);
+  }
+  .threat-icon {
+    font-size: 2rem; margin-bottom: 14px; display: block;
+    filter: drop-shadow(0 0 8px currentColor);
+  }
+  .threat-card h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.82rem; color: #fff;
+    letter-spacing: 1px; margin-bottom: 10px;
+  }
+  .threat-card p { font-size: 0.88rem; color: var(--text2); font-weight: 300; line-height: 1.7; }
+  .threat-stat {
+    margin-top: 14px;
+    font-family: 'Orbitron', monospace;
+    font-size: 1.4rem; font-weight: 700;
+  }
+  .threat-stat span { font-size: 0.65rem; color: var(--text2); display: block; font-family: 'Share Tech Mono',monospace; letter-spacing: 1px; }
+  .threat-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .tc1::before { background: linear-gradient(90deg,#7c3aed,#a855f7); }
+  .tc2::before { background: linear-gradient(90deg,#ff1744,#ff6d00); }
+  .tc3::before { background: linear-gradient(90deg,#0891b2,#00e5ff); }
+  .tc4::before { background: linear-gradient(90deg,#059669,#34d399); }
+  .tc5::before { background: linear-gradient(90deg,#b45309,#fbbf24); }
+  .tc6::before { background: linear-gradient(90deg,#7c3aed,#00e5ff); }
+ 
+  /* ══════════════════════════════════════
+     SECTORS TABLE
+  ══════════════════════════════════════ */
+  .sector-table { width: 100%; border-collapse: collapse; }
+  .sector-table thead tr {
+    background: rgba(0,229,255,0.06);
+    border-bottom: 1px solid var(--cyan);
+  }
+  .sector-table th {
+    padding: 14px 16px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    text-align: left;
+    white-space: nowrap;
+  }
+  .sector-table td {
+    padding: 14px 16px;
+    font-size: 0.9rem;
+    color: var(--text);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .sector-table tr:hover td { background: rgba(0,229,255,0.03); }
+  .risk-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    border-radius: 2px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .risk-crit { background: rgba(255,23,68,0.15); color: var(--red); border: 1px solid rgba(255,23,68,0.4); }
+  .risk-high { background: rgba(255,109,0,0.12); color: var(--orange); border: 1px solid rgba(255,109,0,0.35); }
+  .risk-med  { background: rgba(255,214,0,0.1);  color: var(--gold);   border: 1px solid rgba(255,214,0,0.3); }
+ 
+  /* ══════════════════════════════════════
+     CONCLUSIONS
+  ══════════════════════════════════════ */
+  .conclusions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 700px) { .conclusions-grid { grid-template-columns: 1fr; } }
+ 
+  .concl-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 24px;
+    display: flex; gap: 16px;
+    transition: border-color 0.3s;
+  }
+  .concl-card:hover { border-color: rgba(0,229,255,0.3); }
+  .concl-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 2rem; font-weight: 900;
+    color: rgba(0,229,255,0.15);
+    flex-shrink: 0; line-height: 1;
+    min-width: 40px;
+  }
+  .concl-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.78rem; color: var(--cyan);
+    letter-spacing: 1px; margin-bottom: 8px;
+  }
+  .concl-text { font-size: 0.88rem; color: var(--text2); font-weight: 300; line-height: 1.7; }
+ 
+  /* ══════════════════════════════════════
+     RECOMMENDATIONS
+  ══════════════════════════════════════ */
+  .rec-tabs { display: flex; gap: 0; margin-bottom: 32px; }
+  .rec-tab {
+    flex: 1; padding: 12px; text-align: center;
+    font-family: 'Orbitron', monospace; font-size: 0.7rem;
+    letter-spacing: 1px; color: var(--text2);
+    background: var(--panel2); border: 1px solid var(--border);
+    cursor: pointer; transition: all 0.3s;
+  }
+  .rec-tab.active {
+    background: rgba(0,229,255,0.08);
+    color: var(--cyan); border-color: var(--cyan);
+    box-shadow: var(--glow-sm);
+  }
+  .rec-content { display: none; }
+  .rec-content.active { display: block; }
+ 
+  .rec-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .rec-list li {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+    transition: border-color 0.3s, transform 0.2s;
+  }
+  .rec-list li:hover { border-color: rgba(0,229,255,0.35); transform: translateX(4px); }
+  .rec-arrow { color: var(--cyan); font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+  .rec-list li span { font-size: 0.92rem; color: var(--text); font-weight: 400; }
+ 
+  /* ══════════════════════════════════════
+     REFERENCES
+  ══════════════════════════════════════ */
+  .ref-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .ref-list li {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.85rem; color: var(--text2);
+    padding: 14px 18px;
+    background: var(--panel);
+    border-left: 2px solid var(--purple);
+    line-height: 1.6;
+  }
+  .ref-list li a { color: var(--cyan2); text-decoration: none; }
+  .ref-list li a:hover { text-decoration: underline; }
+ 
+  /* ══════════════════════════════════════
+     FOOTER
+  ══════════════════════════════════════ */
+  footer {
+    position: relative; z-index: 1;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 40px 24px;
+    text-align: center;
+  }
+  footer .f-logo {
+    font-family: 'Orbitron', monospace;
+    font-size: 1rem; color: var(--cyan);
+    letter-spacing: 4px; margin-bottom: 12px;
+  }
+  footer p { font-size: 0.8rem; color: var(--text2); font-family: 'Share Tech Mono', monospace; }
+ 
+  /* ══════════════════════════════════════
+     STICKY NAV
+  ══════════════════════════════════════ */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(3,8,18,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    transform: translateY(-100%);
+    transition: transform 0.4s ease;
+  }
+  nav.visible { transform: translateY(0); }
+  .nav-brand {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem; color: var(--cyan);
+    letter-spacing: 3px;
+  }
+  .nav-links { display: flex; gap: 20px; }
+  .nav-links a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem; color: var(--text2);
+    text-decoration: none; letter-spacing: 1px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--cyan); }
+  @media (max-width: 600px) { .nav-links { display: none; } }
+ 
+  /* Reveal on scroll */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+ 
+  /* ══════════════════════════════════════
+     GLITCH TEXT
+  ══════════════════════════════════════ */
+  .glitch {
+    position: relative;
+    display: inline-block;
+  }
+  .glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .glitch::before {
+    animation: glitch1 3s infinite;
+    color: var(--cyan); clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+  }
+  .glitch::after {
+    animation: glitch2 3s infinite;
+    color: var(--purple2); clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+  }
+  @keyframes glitch1 {
+    0%,92%,100% { transform: none; opacity: 0; }
+    93% { transform: translate(-2px,1px); opacity: 0.6; }
+    95% { transform: translate(2px,-1px); opacity: 0.4; }
+    97% { transform: none; opacity: 0; }
+  }
+  @keyframes glitch2 {
+    0%,94%,100% { transform: none; opacity: 0; }
+    95% { transform: translate(2px,2px); opacity: 0.5; }
+    97% { transform: translate(-1px,-1px); opacity: 0.3; }
+    99% { transform: none; opacity: 0; }
+  }
+ 
+  /* QUOTE */
+  .cyber-quote {
+    background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(0,229,255,0.05));
+    border: 1px solid rgba(124,58,237,0.25);
+    border-left: 3px solid var(--purple2);
+    padding: 24px 28px;
+    margin: 32px 0;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.05rem;
+    color: var(--text);
+    font-style: italic;
+    font-weight: 300;
+  }
+ 
+  /* ══════════════════════════════════════
+     ANIMATED COUNTER
+  ══════════════════════════════════════ */
+  .counter { display: inline-block; }
 </style>
 </head>
-
 <body>
-
-<canvas id="bg"></canvas>
-<div id="progress"></div>
-
-<!-- SLIDES -->
-
-<div class="slide active">
-  <h1>🔐 Ciberseguridad Panamá</h1>
-  <h2>2024 - 2026</h2>
-  <p>Panorama real del entorno digital</p>
-</div>
-
-<div class="slide">
-  <div class="card">
-    <h1>📊 Datos Clave</h1>
-    <ul>
-      <li>2024: 1,312 incidentes</li>
-      <li>2025: 3,700 incidentes</li>
-      <li>+182% crecimiento</li>
-      <li>+4 mil millones de ataques</li>
-    </ul>
+ 
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-brand">CIBER // PANAMÁ</div>
+  <div class="nav-links">
+    <a href="#contexto">CONTEXTO</a>
+    <a href="#estadisticas">STATS</a>
+    <a href="#amenazas">AMENAZAS</a>
+    <a href="#sectores">SECTORES</a>
+    <a href="#conclusiones">CONCLUSIONES</a>
+    <a href="#referencias">REFS</a>
   </div>
-</div>
-
-<div class="slide">
-  <div class="card">
-    <h1>📈 Evolución</h1>
-    <canvas id="chart"></canvas>
+</nav>
+ 
+<!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-rings">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
   </div>
-</div>
-
-<div class="slide">
-  <div class="grid">
-    <div class="card">
-      <h2>Phishing</h2>
-      <p>42%</p>
+  <div class="scanline"></div>
+ 
+  <div class="hero-badge">ANÁLISIS DE SEGURIDAD INFORMÁTICA // 2024–2026</div>
+ 
+  <h1 class="hero-title">
+    <span class="glitch" data-text="CIBERSEGURIDAD">CIBERSEGURIDAD</span><br>
+    EN PANAMÁ
+  </h1>
+  <div class="hero-sub">PERÍODO 2024 — 2026</div>
+  <p class="hero-desc">
+    Análisis estadístico de incidentes, tendencias, sectores afectados y recomendaciones
+    técnicas basado en datos del CSIRT Panamá, Mastercard y la Procuraduría General de la Nación.
+  </p>
+ 
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <span class="kpi-val" data-target="4000">0</span>
+      <div class="kpi-label">Millones de intentos de ciberataque en Panamá (2024) · Mastercard</div>
     </div>
-    <div class="card">
-      <h2>Fraude</h2>
-      <p>22%</p>
+    <div class="kpi-card">
+      <span class="kpi-val" data-target="1312">0</span>
+      <div class="kpi-label">Incidentes gestionados por CSIRT Panamá (2024)</div>
     </div>
-    <div class="card">
-      <h2>Malware</h2>
-      <p>18%</p>
+    <div class="kpi-card">
+      <span class="kpi-val">+113%</span>
+      <div class="kpi-label">Aumento en delitos informáticos jun.2023 – may.2024</div>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-val">+74%</span>
+      <div class="kpi-label">Crecimiento de ciberataques en el último año (2024)</div>
     </div>
   </div>
-</div>
-
-<div class="slide">
-  <div class="card">
-    <h1>⚠️ Amenazas</h1>
-    <ul>
-      <li>Ransomware</li>
-      <li>Ingeniería social</li>
-      <li>Credenciales robadas</li>
+ 
+  <div class="scroll-hint">
+    <span>SCROLL</span>
+    <div class="scroll-dot"></div>
+  </div>
+</section>
+ 
+<!-- ══════════════════════════════════════
+     RESUMEN EJECUTIVO
+══════════════════════════════════════ -->
+<section id="contexto">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">I &amp; II</div>
+      <h2 class="section-title">RESUMEN &amp; CONTEXTO</h2>
+      <div class="section-line"></div>
+    </div>
+ 
+    <div class="cyber-quote reveal">
+      "Panamá recibió más de 4,000 millones de intentos de ciberataque durante 2024, con un crecimiento semanal del 97% por organización —situando al país entre los más expuestos de América Central."
+      <br><small style="color:var(--text2);font-size:0.78rem;margin-top:8px;display:block;font-style:normal;">— Mastercard Cyber Insights Report, 2025</small>
+    </div>
+ 
+    <div class="two-col">
+      <div class="info-block reveal">
+        <h3><span>🛡</span> CSIRT PANAMÁ</h3>
+        <p>Operado por la Autoridad Nacional para la Innovación Gubernamental (AIG) desde 2011 mediante el Decreto Ejecutivo N.° 709. Coordina la respuesta a incidentes, emite alertas tempranas y colabora con el NCSC-FI (Finlandia), CERT-Bund (Alemania), JP-CERT (Japón) y CISA (EE. UU.).</p>
+      </div>
+      <div class="info-block reveal">
+        <h3><span>⚖️</span> MARCO LEGAL EN EVOLUCIÓN</h3>
+        <p>En 2024, la Procuraduría General presentó el Proyecto de Ley N.° 61 ante la Asamblea Nacional para adecuar el Código Penal al Convenio de Budapest, introduciendo nuevos tipos penales: interceptación ilícita, sabotaje informático y abuso de dispositivos.</p>
+      </div>
+      <div class="info-block reveal">
+        <h3><span>🌐</span> POSICIÓN ESTRATÉGICA</h3>
+        <p>Panamá consolida su rol como hub tecnológico y financiero de América Central. Esta posición privilegiada lo convierte en objetivo atractivo para actores maliciosos nacionales e internacionales que buscan infraestructuras críticas y datos financieros de alto valor.</p>
+      </div>
+      <div class="info-block reveal">
+        <h3><span>💸</span> IMPACTO ECONÓMICO</h3>
+        <p>Las pérdidas directas e indirectas por ciberincidentes se estiman en <strong style="color:var(--red)">US$150 millones anuales</strong>. El costo no cuantificado en daño reputacional, pérdida de confianza digital y fuga de talento especializado multiplica significativamente esta cifra.</p>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- ══════════════════════════════════════
+     ESTADÍSTICAS
+══════════════════════════════════════ -->
+<section id="estadisticas">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">III</div>
+      <h2 class="section-title">ESTADÍSTICAS DE INCIDENTES 2024–2025</h2>
+      <div class="section-line"></div>
+    </div>
+ 
+    <div class="charts-wrapper">
+      <!-- Bar chart -->
+      <div class="chart-panel reveal">
+        <div class="chart-title">// DISTRIBUCIÓN DE INCIDENTES · CSIRT 2024</div>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <div class="bar-label">PHISHING</div>
+            <div class="bar-track"><div class="bar-fill ph">42%</div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">FRAUDE DIG.</div>
+            <div class="bar-track"><div class="bar-fill fr">22%</div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">MALWARE</div>
+            <div class="bar-track"><div class="bar-fill ma">18%</div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">VULN. WEB</div>
+            <div class="bar-track"><div class="bar-fill vu">10%</div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">OTROS</div>
+            <div class="bar-track"><div class="bar-fill ot">8%</div></div>
+          </div>
+        </div>
+        <p style="margin-top:20px;font-size:0.8rem;color:var(--text2);font-family:'Share Tech Mono',monospace;border-top:1px solid var(--border);padding-top:14px;">
+          Total gestionados: <strong style="color:var(--cyan)">1,312 incidentes</strong> · Fuente: CSIRT Panamá, Feb. 2025
+        </p>
+      </div>
+ 
+      <!-- Donut -->
+      <div class="chart-panel reveal">
+        <div class="chart-title">// OBJETIVOS DE ATAQUE · 2024</div>
+        <div class="donut-wrap">
+          <svg class="donut-svg" viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="75" fill="none" stroke="#0d1f38" stroke-width="32"/>
+            <!-- Segments (circumference ~471) -->
+            <circle cx="100" cy="100" r="75" fill="none"
+              stroke="#7c3aed" stroke-width="32"
+              stroke-dasharray="103.6 367.4"
+              stroke-dashoffset="0"
+              style="transition:stroke-dasharray 1.5s ease;transform:rotate(-90deg);transform-origin:center"/>
+            <circle cx="100" cy="100" r="75" fill="none"
+              stroke="#00bcd4" stroke-width="32"
+              stroke-dasharray="68.7 402.3"
+              stroke-dashoffset="-103.6"
+              style="transition:stroke-dasharray 1.5s ease;transform:rotate(-90deg);transform-origin:center"/>
+            <circle cx="100" cy="100" r="75" fill="none"
+              stroke="#ff6d00" stroke-width="32"
+              stroke-dasharray="67.3 403.7"
+              stroke-dashoffset="-172.3"
+              style="transform:rotate(-90deg);transform-origin:center"/>
+            <circle cx="100" cy="100" r="75" fill="none"
+              stroke="#374151" stroke-width="32"
+              stroke-dasharray="231.4 239.6"
+              stroke-dashoffset="-239.6"
+              style="transform:rotate(-90deg);transform-origin:center"/>
+            <text x="100" y="96" text-anchor="middle" font-family="Orbitron,monospace" font-size="20" fill="white" font-weight="700">49%</text>
+            <text x="100" y="114" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="9" fill="#7a9bbf">OTROS</text>
+          </svg>
+          <div class="donut-legend">
+            <div class="legend-row"><div class="legend-dot" style="background:#7c3aed"></div><div class="legend-label">Activos físicos</div><div class="legend-val">22%</div></div>
+            <div class="legend-row"><div class="legend-dot" style="background:#00bcd4"></div><div class="legend-label">Info. financiera</div><div class="legend-val">14.6%</div></div>
+            <div class="legend-row"><div class="legend-dot" style="background:#ff6d00"></div><div class="legend-label">Info. interna</div><div class="legend-val">14.3%</div></div>
+            <div class="legend-row"><div class="legend-dot" style="background:#374151"></div><div class="legend-label">Otros objetivos</div><div class="legend-val">49.1%</div></div>
+          </div>
+        </div>
+        <p style="margin-top:14px;font-size:0.78rem;color:var(--text2);font-family:'Share Tech Mono',monospace;border-top:1px solid var(--border);padding-top:14px;">
+          Sector financiero: <strong style="color:var(--cyan)">2,595 ataques/semana</strong> por organización
+        </p>
+      </div>
+    </div>
+ 
+    <!-- Timeline delitos -->
+    <div style="margin-top:56px;">
+      <h3 style="font-family:'Orbitron',monospace;font-size:0.85rem;color:var(--cyan);letter-spacing:2px;margin-bottom:32px;" class="reveal">
+        // EVOLUCIÓN DE DELITOS INFORMÁTICOS · PROCURADURÍA GENERAL
+      </h3>
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">JUN. 2022 – MAY. 2023</div>
+          <div class="timeline-title">Línea base</div>
+          <div class="timeline-text">Período de referencia. Registro inicial de delitos informáticos ante la Procuraduría General de la Nación. Inicio del mapeo formal de incidencias.</div>
+          <div><span class="tag tag-cyan">BASELINE</span></div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-dot" style="border-color:var(--red);box-shadow:0 0 12px var(--red)"></div>
+          <div class="timeline-year">JUN. 2023 – MAY. 2024</div>
+          <div class="timeline-title">Escalada crítica · ~300 incidentes</div>
+          <div class="timeline-text">Crecimiento del <strong style="color:var(--red)">+113%</strong> en delitos informáticos reportados. Phishing y fraude digital lideran el incremento. Se presentó el Proyecto de Ley N.° 61.</div>
+          <div><span class="tag tag-red">+113%</span><span class="tag tag-orange">RANSOMWARE</span><span class="tag tag-purple">PL N.°61</span></div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-dot" style="border-color:var(--orange);box-shadow:0 0 12px var(--orange)"></div>
+          <div class="timeline-year">ENERO – MAYO 2025</div>
+          <div class="timeline-title">105 casos · ≥33% del total 2024</div>
+          <div class="timeline-text">Solo en los primeros cinco meses de 2025 se acumula un tercio del total anual de 2024, confirmando la aceleración del fenómeno. Personas mayores de 40 años: grupo más victimizado.</div>
+          <div><span class="tag tag-orange">TENDENCIA ↑</span><span class="tag tag-cyan">IA GENERATIVA</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- ══════════════════════════════════════
+     AMENAZAS
+══════════════════════════════════════ -->
+<section id="amenazas">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">IV</div>
+      <h2 class="section-title">TIPOS DE AMENAZAS Y EVOLUCIÓN</h2>
+      <div class="section-line"></div>
+    </div>
+ 
+    <div class="threat-grid">
+      <div class="threat-card tc1 reveal">
+        <span class="threat-icon" style="color:#a855f7">🎣</span>
+        <h3>PHISHING &amp; ING. SOCIAL</h3>
+        <p>Principal vector de ataque. Campañas evolucionan hacia spear phishing con IA generativa (FraudGPT, WormGPT). Vishing y smishing complementan estas operaciones.</p>
+        <div class="threat-stat" style="color:#a855f7">42% <span>del total de incidentes CSIRT 2024</span></div>
+      </div>
+      <div class="threat-card tc2 reveal">
+        <span class="threat-icon" style="color:var(--red)">🔒</span>
+        <h3>RANSOMWARE</h3>
+        <p>Panamá lideró la región en 2023 con 8,000+ casos. El modelo RaaS democratizó el acceso. Caso IFX Networks: 762 empresas afectadas en Latinoamérica, incluyendo Grupo EPASA.</p>
+        <div class="threat-stat" style="color:var(--red)">17.6% <span>de empresas con plan de respuesta específico</span></div>
+      </div>
+      <div class="threat-card tc3 reveal">
+        <span class="threat-icon" style="color:var(--cyan)">💳</span>
+        <h3>FRAUDE DIGITAL</h3>
+        <p>Estafas en línea, fake shops y suplantación de entidades. Afecta principalmente a personas mayores de 40 años. Constituye el segundo tipo de incidente más reportado.</p>
+        <div class="threat-stat" style="color:var(--cyan)">22% <span>de los incidentes registrados</span></div>
+      </div>
+      <div class="threat-card tc4 reveal">
+        <span class="threat-icon" style="color:var(--green)">🏭</span>
+        <h3>INFRAESTRUCTURA CRÍTICA</h3>
+        <p>En 2024 fueron comprometidos sistemas del MIDES. Para 2025, Fortinet advierte automatización del camino desde la intrusión hasta la explotación en entornos OT/TI.</p>
+        <div class="threat-stat" style="color:var(--green)">OT/TI <span>automatización de ataques en entornos industriales</span></div>
+      </div>
+      <div class="threat-card tc5 reveal">
+        <span class="threat-icon" style="color:var(--gold)">🤖</span>
+        <h3>IA OFENSIVA</h3>
+        <p>Modelos generativos crean correos de phishing indistinguibles, deepfakes de voz y automatizan campañas masivas. Herramientas como FraudGPT y WormGPT están disponibles en dark web.</p>
+        <div class="threat-stat" style="color:var(--gold)">↑97% <span>crecimiento semanal de ataques por organización</span></div>
+      </div>
+      <div class="threat-card tc6 reveal">
+        <span class="threat-icon" style="color:var(--purple2)">🌐</span>
+        <h3>MALWARE &amp; BOTNETS</h3>
+        <p>Familias de botnet, adware y conexiones SSH comprometidas, reportadas principalmente por homólogos internacionales. Vectores de entrada para operaciones más complejas.</p>
+        <div class="threat-stat" style="color:var(--purple2)">18% <span>de los incidentes registrados por CSIRT</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- ══════════════════════════════════════
+     SECTORES
+══════════════════════════════════════ -->
+<section id="sectores">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">V</div>
+      <h2 class="section-title">SECTORES MÁS AFECTADOS</h2>
+      <div class="section-line"></div>
+    </div>
+ 
+    <div class="reveal" style="overflow-x:auto;">
+      <table class="sector-table">
+        <thead>
+          <tr>
+            <th>SECTOR</th>
+            <th>RIESGO</th>
+            <th>AMENAZA PRINCIPAL</th>
+            <th>IMPACTO</th>
+            <th>ATAQUES/SEM.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Financiero / Bancario</strong></td>
+            <td><span class="risk-badge risk-crit">CRÍTICO</span></td>
+            <td>Fraude, phishing, malware</td>
+            <td style="color:var(--red)">US$150M/año</td>
+            <td style="font-family:'Orbitron',monospace;color:var(--cyan)">2,595</td>
+          </tr>
+          <tr>
+            <td><strong>Gubernamental</strong></td>
+            <td><span class="risk-badge risk-crit">CRÍTICO</span></td>
+            <td>Ransomware, acceso no autorizado</td>
+            <td>Interrupción de servicios</td>
+            <td style="font-family:'Orbitron',monospace;color:var(--text2)">—</td>
+          </tr>
+          <tr>
+            <td><strong>Manufactura</strong></td>
+            <td><span class="risk-badge risk-high">ALTO</span></td>
+            <td>Ransomware (2.° año consecutivo)</td>
+            <td>Paralización operativa</td>
+            <td style="font-family:'Orbitron',monospace;color:var(--text2)">—</td>
+          </tr>
+          <tr>
+            <td><strong>Telecomunicaciones</strong></td>
+            <td><span class="risk-badge risk-high">ALTO</span></td>
+            <td>DDoS, intrusión OT</td>
+            <td>Interrupción de red</td>
+            <td style="font-family:'Orbitron',monospace;color:var(--text2)">—</td>
+          </tr>
+          <tr>
+            <td><strong>Salud</strong></td>
+            <td><span class="risk-badge risk-high">ALTO</span></td>
+            <td>Ransomware, fuga de datos</td>
+            <td>Exposición de datos sensibles</td>
+            <td style="font-family:'Orbitron',monospace;color:var(--text2)">—</td>
+          </tr>
+          <tr>
+            <td><strong>Académico / Educación</strong></td>
+            <td><span class="risk-badge risk-med">MODERADO</span></td>
+            <td>Vulnerabilidades web, phishing</td>
+            <td>Robo de credenciales</td>
+            <td style="font-family:'Orbitron',monospace;color:var(--text2)">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.75rem;color:var(--text2);font-family:'Share Tech Mono',monospace;margin-top:10px;padding:10px 14px;border-left:2px solid var(--border);">
+      Fuente: Mastercard Cyber Insights Report (2025); Fortinet / En Segundos Panamá (2025); AIG Panamá.
+    </p>
+  </div>
+</section>
+ 
+<!-- ══════════════════════════════════════
+     CONCLUSIONES
+══════════════════════════════════════ -->
+<section id="conclusiones">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">VI</div>
+      <h2 class="section-title">CONCLUSIONES</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="conclusions-grid">
+      <div class="concl-card reveal">
+        <div class="concl-num">01</div>
+        <div>
+          <div class="concl-title">ESCALADA SIN PRECEDENTES</div>
+          <div class="concl-text">Panamá experimentó en 2024 un incremento del 97% en ciberataques semanales por organización y +113% en delitos informáticos formales, superando la tendencia regional del 25% anual.</div>
+        </div>
+      </div>
+      <div class="concl-card reveal">
+        <div class="concl-num">02</div>
+        <div>
+          <div class="concl-title">PHISHING: PUERTA PRINCIPAL</div>
+          <div class="concl-text">Representa el 42% de los incidentes del CSIRT. La combinación con IA generativa eleva significativamente su eficacia y dificulta la detección humana y automatizada.</div>
+        </div>
+      </div>
+      <div class="concl-card reveal">
+        <div class="concl-num">03</div>
+        <div>
+          <div class="concl-title">RANSOMWARE: CONTINUIDAD EN RIESGO</div>
+          <div class="concl-text">Solo el 17.6% de las empresas panameñas posee un plan de respuesta específico. La postura reactiva dominante agrava el impacto económico y reputacional.</div>
+        </div>
+      </div>
+      <div class="concl-card reveal">
+        <div class="concl-num">04</div>
+        <div>
+          <div class="concl-title">PÉRDIDAS CUANTIFICABLES</div>
+          <div class="concl-text">Se estiman en US$150 millones anuales en pérdidas directas e indirectas, sin contabilizar el impacto reputacional y la erosión de la confianza digital.</div>
+        </div>
+      </div>
+      <div class="concl-card reveal">
+        <div class="concl-num">05</div>
+        <div>
+          <div class="concl-title">BRECHA DE CAPACIDADES HUMANAS</div>
+          <div class="concl-text">Casi la mitad de las empresas no ofrece capacitación en ciberseguridad a su personal. El 32.4% desconoce las medidas implementadas en su propia organización.</div>
+        </div>
+      </div>
+      <div class="concl-card reveal">
+        <div class="concl-num">06</div>
+        <div>
+          <div class="concl-title">MARCO LEGAL EN CONSTRUCCIÓN</div>
+          <div class="concl-text">El Proyecto de Ley N.° 61 representa un avance hacia el Convenio de Budapest, aunque su aprobación e implementación efectiva son urgentes para contener el fenómeno.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- ══════════════════════════════════════
+     RECOMENDACIONES
+══════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">VII</div>
+      <h2 class="section-title">RECOMENDACIONES</h2>
+      <div class="section-line"></div>
+    </div>
+ 
+    <div class="rec-tabs reveal">
+      <div class="rec-tab active" onclick="switchTab(this,'tab1')">ORGANIZACIONES</div>
+      <div class="rec-tab" onclick="switchTab(this,'tab2')">ESTADO &amp; REGULADORES</div>
+      <div class="rec-tab" onclick="switchTab(this,'tab3')">USUARIOS FINALES</div>
+    </div>
+ 
+    <div id="tab1" class="rec-content active">
+      <ul class="rec-list">
+        <li><span class="rec-arrow">▸</span><span>Implementar autenticación multifactor (MFA) en todos los accesos críticos de la organización.</span></li>
+        <li><span class="rec-arrow">▸</span><span>Adoptar el esquema de respaldo <strong>3-2-1-1-0</strong> como estándar mínimo de resiliencia ante ransomware.</span></li>
+        <li><span class="rec-arrow">▸</span><span>Desarrollar y ensayar planes de respuesta a incidentes al menos <strong>dos veces al año</strong> con simulacros reales.</span></li>
+        <li><span class="rec-arrow">▸</span><span>Invertir en capacitación continua: simulaciones de phishing, concienciación y certificaciones en ciberseguridad para el personal.</span></li>
+        <li><span class="rec-arrow">▸</span><span>Evaluar la postura de seguridad de proveedores y socios en la cadena de suministro digital.</span></li>
+      </ul>
+    </div>
+    <div id="tab2" class="rec-content">
+      <ul class="rec-list">
+        <li><span class="rec-arrow">▸</span><span>Agilizar la aprobación e implementación del <strong>Proyecto de Ley N.° 61</strong> (alineación con el Convenio de Budapest).</span></li>
+        <li><span class="rec-arrow">▸</span><span>Fortalecer el presupuesto y el personal del <strong>CSIRT Panamá</strong> para ampliar la cobertura sectorial.</span></li>
+        <li><span class="rec-arrow">▸</span><span>Establecer un marco regulatorio de <strong>notificación obligatoria de incidentes</strong> con plazos definidos y sanciones.</span></li>
+        <li><span class="rec-arrow">▸</span><span>Impulsar alianzas público-privadas para el intercambio de inteligencia de amenazas en tiempo real.</span></li>
+        <li><span class="rec-arrow">▸</span><span>Promover la educación en ciberseguridad desde la <strong>educación básica y media</strong> como competencia ciudadana.</span></li>
+      </ul>
+    </div>
+    <div id="tab3" class="rec-content">
+      <ul class="rec-list">
+        <li><span class="rec-arrow">▸</span><span>Verificar siempre la autenticidad de correos, llamadas y mensajes antes de compartir cualquier dato personal.</span></li>
+        <li><span class="rec-arrow">▸</span><span>Utilizar <strong>contraseñas únicas</strong> para cada servicio y apoyarse en un gestor de contraseñas certificado.</span></li>
+        <li><span class="rec-arrow">▸</span><span>Mantener sistemas operativos y aplicaciones actualizados para cerrar vulnerabilidades conocidas.</span></li>
+        <li><span class="rec-arrow">▸</span><span>Reportar cualquier incidente sospechoso a las autoridades competentes: <strong>CSIRT Panamá</strong> y <strong>Procuraduría General</strong>.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+ 
+<!-- ══════════════════════════════════════
+     REFERENCIAS
+══════════════════════════════════════ -->
+<section id="referencias">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">VIII</div>
+      <h2 class="section-title">REFERENCIAS · APA 7MA. EDICIÓN</h2>
+      <div class="section-line"></div>
+    </div>
+    <ul class="ref-list reveal">
+      <li>Autoridad Nacional para la Innovación Gubernamental [AIG]. (2011). <em>Decreto Ejecutivo N.° 709 del 26 de septiembre de 2011. Creación del CSIRT Panamá.</em> Gaceta Oficial de la República de Panamá.</li>
+      <li>CSIRT Panamá. (2025, 24 de febrero). <em>Estadísticas de incidencias de seguridad informática 2024 en el CSIRT Panamá.</em> Autoridad Nacional para la Innovación Gubernamental. <a href="https://cert.pa/?p=4183" target="_blank">https://cert.pa/?p=4183</a></li>
+      <li>Eco TV Panamá. (2024, 22 de noviembre). <em>Ciberataques aumentaron en Panamá 74% en el último año e incrementarán en 2025.</em> <a href="https://www.ecotvpanama.com" target="_blank">https://www.ecotvpanama.com</a></li>
+      <li>En Segundos Panamá. (2025, 14 de agosto). <em>Panamá registra 2,400 millones de intentos de ciberataques en el 2025.</em> <a href="https://ensegundos.com.pa" target="_blank">https://ensegundos.com.pa</a></li>
+      <li>El Capital Financiero. (2025, 16 de mayo). <em>Panamá registró 4,000 millones de ciberataques en 2024, revela estudio de Mastercard.</em> <a href="https://elcapitalfinanciero.com" target="_blank">https://elcapitalfinanciero.com</a></li>
+      <li>La Estrella de Panamá. (2025). <em>El interesante informe sobre el ciberdelito en Panamá y por qué la edad de las víctimas llamó la atención.</em> <a href="https://www.laestrella.com.pa" target="_blank">https://www.laestrella.com.pa</a></li>
+      <li>Pentesting Latam. (2025, 14 de mayo). <em>Ciberseguridad en Panamá.</em> <a href="https://www.pentestinglatam.com" target="_blank">https://www.pentestinglatam.com</a></li>
+      <li>Revista Colón Ciencias, Tecnología y Negocios. (2025). <em>Impacto del ransomware en empresas de Panamá, Colón e interior del país.</em> Universidad de Panamá, vol. 12(1). <a href="https://revistas.up.ac.pa" target="_blank">https://revistas.up.ac.pa</a></li>
+      <li>TVN Panamá. (2024, 23 de septiembre). <em>Delitos informáticos en Panamá: una amenaza que aumentó un 113% en los últimos meses.</em> <a href="https://www.tvn-2.com" target="_blank">https://www.tvn-2.com</a></li>
+      <li>WeLiveSecurity by ESET. (2025). <em>7 incidentes de ciberseguridad que marcaron el 2024 en América Latina.</em> <a href="https://www.welivesecurity.com/es" target="_blank">https://www.welivesecurity.com/es</a></li>
     </ul>
   </div>
-</div>
-
-<div class="slide">
-  <div class="card">
-    <h1>🏢 Sectores</h1>
-    <ul>
-      <li>Financiero</li>
-      <li>Industrial</li>
-      <li>Salud</li>
-    </ul>
-  </div>
-</div>
-
-<div class="slide">
-  <div class="card">
-    <h1>🚨 Riesgos</h1>
-    <ul>
-      <li>Fraude económico</li>
-      <li>Robo de datos</li>
-      <li>Ransomware</li>
-    </ul>
-  </div>
-</div>
-
-<div class="slide">
-  <div class="card">
-    <h1>✅ Conclusión</h1>
-    <p>Panamá enfrenta un entorno digital cada vez más peligroso</p>
-  </div>
-</div>
-
-<!-- BOTONES -->
-<div class="nav">
-  <button onclick="prev()">⬅</button>
-  <button onclick="next()">➡</button>
-</div>
-
+</section>
+ 
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">CIBER // PANAMÁ 2024–2026</div>
+  <p>CSIRT PANAMÁ · MASTERCARD CYBER INSIGHTS · PROCURADURÍA GENERAL DE LA NACIÓN</p>
+  <p style="margin-top:8px;color:rgba(122,155,191,0.5);">Normas APA 7ma. Edición · Trabajo Individual · Marzo 2026</p>
+</footer>
+ 
 <script>
-let i=0;
-const slides=document.querySelectorAll(".slide");
-const progress=document.getElementById("progress");
-
-function show(n){
-  slides.forEach(s=>s.classList.remove("active"));
-  slides[n].classList.add("active");
-  progress.style.width=((n+1)/slides.length*100)+"%";
-}
-
-function next(){
-  i=(i+1)%slides.length;
-  show(i);
-}
-
-function prev(){
-  i=(i-1+slides.length)%slides.length;
-  show(i);
-}
-
-document.addEventListener("keydown",e=>{
-  if(e.key==="ArrowRight") next();
-  if(e.key==="ArrowLeft") prev();
-});
-
-/* GRAFICO */
-new Chart(document.getElementById("chart"),{
-  type:"line",
-  data:{
-    labels:["2020","2021","2022","2023","2024","2025"],
-    datasets:[{
-      label:"Incidentes",
-      data:[620,1427,3940,2726,1312,3700],
-      borderColor:"#7c9cff",
-      fill:true
-    }]
+  // ── Navbar on scroll ──
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('visible', window.scrollY > window.innerHeight * 0.8);
+  });
+ 
+  // ── Scroll reveal ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+ 
+  // ── Counter animation ──
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target);
+    const suffix = el.dataset.target.includes('M') ? 'M+' : '';
+    let current = 0;
+    const duration = 2000;
+    const step = target / (duration / 16);
+    const update = () => {
+      current = Math.min(current + step, target);
+      el.textContent = Math.floor(current).toLocaleString() + (suffix || '');
+      if (current < target) requestAnimationFrame(update);
+      else el.textContent = target.toLocaleString() + (suffix || '');
+    };
+    update();
   }
-});
-
-/* FONDO MATRIX */
-const canvas=document.getElementById("bg");
-const ctx=canvas.getContext("2d");
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-let particles=[];
-for(let i=0;i<100;i++){
-  particles.push({
-    x:Math.random()*canvas.width,
-    y:Math.random()*canvas.height,
-    speed:Math.random()*2
-  });
-}
-
-function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle="#7c9cff";
-  particles.forEach(p=>{
-    ctx.fillRect(p.x,p.y,2,2);
-    p.y+=p.speed;
-    if(p.y>canvas.height) p.y=0;
-  });
-  requestAnimationFrame(animate);
-}
-animate();
+ 
+  const counterEls = document.querySelectorAll('[data-target]');
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { animateCounter(e.target); counterObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.5 });
+  counterEls.forEach(el => counterObs.observe(el));
+ 
+  // ── Tabs ──
+  function switchTab(btn, id) {
+    document.querySelectorAll('.rec-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.rec-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(id).classList.add('active');
+  }
 </script>
-
 </body>
 </html>
+ 
