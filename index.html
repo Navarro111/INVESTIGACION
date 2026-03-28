@@ -3,30 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ciberseguridad en Panamá</title>
+<title>Cyber Panamá PRO</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 body{
   margin:0;
-  font-family:Segoe UI, sans-serif;
-  background:#0b1020;
-  color:white;
+  font-family: 'Segoe UI', sans-serif;
   overflow:hidden;
+  color:white;
+  background:#0a0f1f;
 }
 
+/* FONDO TECNOLÓGICO */
+canvas#bg{
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:-1;
+}
+
+/* SLIDES */
 .slide{
-  width:100vw;
-  height:100vh;
-  display:none;
-  padding:60px;
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  transform:translateX(100px) scale(.95);
+  transition:all .6s ease;
 }
 
-.active{display:block;}
+.active{
+  opacity:1;
+  transform:translateX(0) scale(1);
+}
 
-h1{font-size:2.8rem;}
-h2{color:#7c9cff;}
-ul{font-size:1.2rem; line-height:1.8;}
+/* CARD */
+.card{
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;
+  padding:30px;
+  max-width:800px;
+  box-shadow:0 0 30px rgba(124,156,255,.3);
+}
 
+/* TITULOS */
+h1{
+  font-size:3rem;
+}
+h2{
+  color:#7c9cff;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:15px;
+}
+
+/* BARRA PROGRESO */
+#progress{
+  position:fixed;
+  top:0;
+  left:0;
+  height:5px;
+  background:#7c9cff;
+  width:0%;
+}
+
+/* NAV */
 .nav{
   position:fixed;
   bottom:20px;
@@ -36,127 +88,102 @@ ul{font-size:1.2rem; line-height:1.8;}
 button{
   background:#7c9cff;
   border:none;
-  padding:10px 15px;
+  padding:12px;
   margin:5px;
+  border-radius:10px;
   color:white;
-  border-radius:8px;
   cursor:pointer;
-}
-
-.fade{animation:fade .5s;}
-@keyframes fade{
-  from{opacity:0}
-  to{opacity:1}
 }
 </style>
 </head>
 
 <body>
 
-<!-- PORTADA -->
-<div class="slide active fade">
-  <h1>🔐 Panorama de Ciberseguridad en Panamá</h1>
-  <h2>Periodo 2024 – 2026</h2>
-  <p>Análisis basado en CSIRT Panamá, Mastercard y fuentes oficiales</p>
+<canvas id="bg"></canvas>
+<div id="progress"></div>
+
+<!-- SLIDES -->
+
+<div class="slide active">
+  <h1>🔐 Ciberseguridad Panamá</h1>
+  <h2>2024 - 2026</h2>
+  <p>Panorama real del entorno digital</p>
 </div>
 
-<!-- RESUMEN -->
-<div class="slide fade">
-  <h1>📊 Resumen Ejecutivo</h1>
-  <ul>
-    <li>2024: 1,312 incidentes reportados</li>
-    <li>2025: 3,700 incidentes</li>
-    <li>Crecimiento del 182%</li>
-    <li>Más de 4 mil millones de intentos de ataque</li>
-  </ul>
+<div class="slide">
+  <div class="card">
+    <h1>📊 Datos Clave</h1>
+    <ul>
+      <li>2024: 1,312 incidentes</li>
+      <li>2025: 3,700 incidentes</li>
+      <li>+182% crecimiento</li>
+      <li>+4 mil millones de ataques</li>
+    </ul>
+  </div>
 </div>
 
-<!-- AMENAZAS -->
-<div class="slide fade">
-  <h1>⚠️ Principales Amenazas</h1>
-  <ul>
-    <li>Phishing (42%)</li>
-    <li>Fraude digital (22%)</li>
-    <li>Malware (18%)</li>
-    <li>Ransomware en crecimiento</li>
-  </ul>
+<div class="slide">
+  <div class="card">
+    <h1>📈 Evolución</h1>
+    <canvas id="chart"></canvas>
+  </div>
 </div>
 
-<!-- DIFERENCIA DATOS -->
-<div class="slide fade">
-  <h1>📌 Interpretación de Datos</h1>
-  <ul>
-    <li>Incidentes ≠ Intentos de ataque</li>
-    <li>CSIRT → casos reales gestionados</li>
-    <li>Mastercard → volumen de ataques detectados</li>
-    <li>El riesgo real es mucho mayor al reportado</li>
-  </ul>
+<div class="slide">
+  <div class="grid">
+    <div class="card">
+      <h2>Phishing</h2>
+      <p>42%</p>
+    </div>
+    <div class="card">
+      <h2>Fraude</h2>
+      <p>22%</p>
+    </div>
+    <div class="card">
+      <h2>Malware</h2>
+      <p>18%</p>
+    </div>
+  </div>
 </div>
 
-<!-- 2025 -->
-<div class="slide fade">
-  <h1>📈 Año 2025</h1>
-  <ul>
-    <li>3,700 incidentes reportados</li>
-    <li>Mayor variedad de ataques</li>
-    <li>Compromiso de cuentas y apps</li>
-    <li>Presencia de SQL Injection y ransomware</li>
-  </ul>
+<div class="slide">
+  <div class="card">
+    <h1>⚠️ Amenazas</h1>
+    <ul>
+      <li>Ransomware</li>
+      <li>Ingeniería social</li>
+      <li>Credenciales robadas</li>
+    </ul>
+  </div>
 </div>
 
-<!-- 2026 -->
-<div class="slide fade">
-  <h1>📅 2026 (Parcial)</h1>
-  <ul>
-    <li>No hay datos completos aún</li>
-    <li>Foco en ransomware</li>
-    <li>Vulnerabilidades críticas (Oracle)</li>
-    <li>149 millones de credenciales expuestas</li>
-  </ul>
+<div class="slide">
+  <div class="card">
+    <h1>🏢 Sectores</h1>
+    <ul>
+      <li>Financiero</li>
+      <li>Industrial</li>
+      <li>Salud</li>
+    </ul>
+  </div>
 </div>
 
-<!-- SECTORES -->
-<div class="slide fade">
-  <h1>🏢 Sectores Más Afectados</h1>
-  <ul>
-    <li>Financiero</li>
-    <li>Industrial</li>
-    <li>Telecomunicaciones</li>
-    <li>Salud</li>
-  </ul>
+<div class="slide">
+  <div class="card">
+    <h1>🚨 Riesgos</h1>
+    <ul>
+      <li>Fraude económico</li>
+      <li>Robo de datos</li>
+      <li>Ransomware</li>
+    </ul>
+  </div>
 </div>
 
-<!-- RIESGOS -->
-<div class="slide fade">
-  <h1>🚨 Riesgos Clave</h1>
-  <ul>
-    <li>Robo de credenciales</li>
-    <li>Fraude económico</li>
-    <li>Ransomware</li>
-    <li>Fuga de información</li>
-  </ul>
-</div>
-
-<!-- CONCLUSION -->
-<div class="slide fade">
-  <h1>✅ Conclusiones</h1>
-  <ul>
-    <li>Aumento real de amenazas</li>
-    <li>Usuarios = punto débil principal</li>
-    <li>Necesidad de mejores defensas</li>
-    <li>Importancia del SOC en Panamá</li>
-  </ul>
-</div>
-
-<!-- RECOMENDACIONES -->
-<div class="slide fade">
-  <h1>🛡️ Recomendaciones</h1>
-  <ul>
-    <li>Uso de MFA</li>
-    <li>Capacitación en phishing</li>
-    <li>Actualización de sistemas</li>
-    <li>Copias de seguridad</li>
-  </ul>
+<div class="slide">
+  <div class="card">
+    <h1>✅ Conclusión</h1>
+    <p>Panamá enfrenta un entorno digital cada vez más peligroso</p>
+  </div>
 </div>
 
 <!-- BOTONES -->
@@ -166,28 +193,71 @@ button{
 </div>
 
 <script>
-let index = 0;
-const slides = document.querySelectorAll(".slide");
+let i=0;
+const slides=document.querySelectorAll(".slide");
+const progress=document.getElementById("progress");
 
-function showSlide(i){
-  slides.forEach(s => s.classList.remove("active"));
-  slides[i].classList.add("active");
+function show(n){
+  slides.forEach(s=>s.classList.remove("active"));
+  slides[n].classList.add("active");
+  progress.style.width=((n+1)/slides.length*100)+"%";
 }
 
 function next(){
-  index = (index + 1) % slides.length;
-  showSlide(index);
+  i=(i+1)%slides.length;
+  show(i);
 }
 
 function prev(){
-  index = (index - 1 + slides.length) % slides.length;
-  showSlide(index);
+  i=(i-1+slides.length)%slides.length;
+  show(i);
 }
 
-document.addEventListener("keydown", e=>{
+document.addEventListener("keydown",e=>{
   if(e.key==="ArrowRight") next();
   if(e.key==="ArrowLeft") prev();
 });
+
+/* GRAFICO */
+new Chart(document.getElementById("chart"),{
+  type:"line",
+  data:{
+    labels:["2020","2021","2022","2023","2024","2025"],
+    datasets:[{
+      label:"Incidentes",
+      data:[620,1427,3940,2726,1312,3700],
+      borderColor:"#7c9cff",
+      fill:true
+    }]
+  }
+});
+
+/* FONDO MATRIX */
+const canvas=document.getElementById("bg");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+for(let i=0;i<100;i++){
+  particles.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    speed:Math.random()*2
+  });
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="#7c9cff";
+  particles.forEach(p=>{
+    ctx.fillRect(p.x,p.y,2,2);
+    p.y+=p.speed;
+    if(p.y>canvas.height) p.y=0;
+  });
+  requestAnimationFrame(animate);
+}
+animate();
 </script>
 
 </body>
